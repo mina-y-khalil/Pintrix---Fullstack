@@ -13,6 +13,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")  # If delete a User, all their Comment rows should be deleted too thats why I added cascade="all, delete-orphan"
+
 
     @property
     def password(self):
