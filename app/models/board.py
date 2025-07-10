@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import ForeignKey
+from datetime import datetime
 
 class Board(db.Model):
     __tablename__ = 'boards'
@@ -13,13 +14,16 @@ class Board(db.Model):
     user_id = db.Column(
         db.Integer, 
         db.ForeignKey(add_prefix_for_prod("users.id")),
-        nullable=False, 
-    )
+        nullable=False)
     name = db.Column(db.String(255), nullable=False, unique=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def to_dict(self):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'name': self.name
+            'name': self.name,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
         }

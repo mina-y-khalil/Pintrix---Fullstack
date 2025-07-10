@@ -9,11 +9,9 @@ def seed_boards():
     cute_cats = Board(
         user_id=2, name='cute_cats')
     patio_furniture = Board(
-        user_id=3, name='patio_furntiture')
+        user_id=3, name='patio_furniture')
 
-    db.session.add(cute_dogs)
-    db.session.add(cute_cats)
-    db.session.add(patio_furniture)
+    db.session.add_all([cute_dogs, cute_cats, patio_furniture])
     db.session.commit()
 
 
