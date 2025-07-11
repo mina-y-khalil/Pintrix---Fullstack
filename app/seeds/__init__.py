@@ -3,6 +3,7 @@ from .users import seed_users, undo_users
 from .pins import seed_pins, undo_pins #[LR] Import pin for seedinf=g
 
 
+from .boards import seed_boards, undo_boards
 
 from app.models.db import db, environment, SCHEMA
 
@@ -20,12 +21,17 @@ def seed():
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
         undo_users()
+<<<<<<< HEAD
         
+=======
+        undo_boards()
+>>>>>>> 78b8c695ff91e74d9bf0709f1d0b9a868b27f223
     seed_users()
     seed_pins() #[LR] inserts pins
 
 
     # Add other seed functions here
+    seed_boards()
 
 
 # Creates the `flask seed undo` command
@@ -36,3 +42,4 @@ def undo():
 
 
     # Add other undo functions here
+    undo_boards()

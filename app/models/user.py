@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
 #[LR] cascade="all, delete-orphan" it deletes a user's pins if the user gets deleted, so DB stays tidy
     pins = db.relationship("Pin", back_populates="user", cascade="all, delete-orphan")
 
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")  # If delete a User, all their Comment rows should be deleted too thats why I added cascade="all, delete-orphan"
 
 
     @property
