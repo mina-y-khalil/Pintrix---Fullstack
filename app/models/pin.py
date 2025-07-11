@@ -17,9 +17,9 @@ class Pin(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     user = db.relationship('User', back_populates='pins')
-    comments = db.relationship('Comment', back_populates='pin', cascade='all, delete-orphan')
-    favorites = db.relationship('Favorite', back_populates='pin', cascade='all, delete-orphan')
-    boards = db.relationship('BoardPin', back_populates='pin', cascade='all, delete-orphan')
+    #comments = db.relationship('Comment', back_populates='pin', cascade='all, delete-orphan')
+    #favorites = db.relationship('Favorite', back_populates='pin', cascade='all, delete-orphan')
+    #boards = db.relationship('BoardPin', back_populates='pin', cascade='all, delete-orphan')
 
     def to_dict(self):
         return {

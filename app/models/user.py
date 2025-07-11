@@ -1,6 +1,9 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from .pin import Pin #[LR] Import pin for relationship mapping
+
+
 
 
 class User(db.Model, UserMixin):
@@ -13,6 +16,11 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+#[LR] one-to-many relationship allows access to all pins a user made.
+#[LR] cascade="all, delete-orphan" it deletes a user's pins if the user gets deleted, so DB stays tidy
+    pins = db.relationship("Pin", back_populates="user", cascade="all, delete-orphan")
+
+
 
     @property
     def password(self):
