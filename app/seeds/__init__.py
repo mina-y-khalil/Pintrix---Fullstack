@@ -1,5 +1,6 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
+from .boards import seed_boards, undo_boards
 from .favorites import seed_favorites, undo_favorites
 
 from app.models.db import db, environment, SCHEMA
@@ -18,10 +19,10 @@ def seed():
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
         undo_users()
-        undo_favorites()
     seed_users()
     seed_favorites()
     # Add other seed functions here
+    seed_boards()
 
 
 # Creates the `flask seed undo` command
@@ -30,3 +31,4 @@ def undo():
     undo_users()
     undo_favorites()
     # Add other undo functions here
+    undo_boards()
