@@ -9,3 +9,4 @@ from .pin_board import pin_boards
 from .pin import Pin
 >>>>>>> mk
 from .db import environment, SCHEMA
+from .pin import Pin
