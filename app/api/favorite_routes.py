@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Favorite, db
+from app.models import Favorite, Pin, db
 
 favorite_routes = Blueprint('favorites', __name__)
 
@@ -15,9 +15,13 @@ def view_favorites():
 @login_required
 def favorite_pin():
     data = request.get_json()
+    pin_id = data.get('pin_id')
+    pin = Pin.query.get(pin_id)
+    if not pin:
+        return {'errors': 'Pin not found'}, 404
     new_fav = Favorite(
         user_id=current_user.id,
-        pin_id=data.get('pin_id')
+        pin_id=pin_id
     )
     db.session.add(new_fav)
     db.session.commit()
