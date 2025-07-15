@@ -1,4 +1,5 @@
-from app.models import db, Pin
+from app.models import db, Pin, environment, SCHEMA
+from sqlalchemy.sql import text
 
 def seed_pins():
     pin1 = Pin(
@@ -25,12 +26,14 @@ def seed_pins():
         likes_count= 33
     )
 
-
-
-
     db.session.add_all([pin1, pin2, pin3])
     db.session.commit()
 
+
 def undo_pins():
-    db.session.execute('DELETE FROM pins')
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pins RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM pins"))
+    
     db.session.commit()

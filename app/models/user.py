@@ -16,11 +16,13 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+
 #[LR] one-to-many relationship allows access to all pins a user made.
 #[LR] cascade="all, delete-orphan" it deletes a user's pins if the user gets deleted, so DB stays tidy
     pins = db.relationship("Pin", back_populates="user", cascade="all, delete-orphan")
 
     comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")  # If delete a User, all their Comment rows should be deleted too thats why I added cascade="all, delete-orphan"
+    favorites = db.relationship("Favorite", back_populates="user",  cascade="all, delete-orphan")
 
 
     @property

@@ -2,7 +2,7 @@ from app.models import db, Board, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
-# Adds a demo user, you can add other users here if you want
+
 def seed_boards():
     cute_dogs = Board(
         user_id=1, name='cute_dogs')

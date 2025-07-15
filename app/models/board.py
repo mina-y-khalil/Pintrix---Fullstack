@@ -1,5 +1,4 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import ForeignKey
 from datetime import datetime
 from .pin_board import pin_boards
 
@@ -14,12 +13,12 @@ class Board(db.Model):
         db.Integer, 
         db.ForeignKey(add_prefix_for_prod("users.id")),
         nullable=False)
-    name = db.Column(db.String(255), nullable=False, unique=True)
+    name = db.Column(db.String(255), nullable=False, unique=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
+    #Relationships
     user = db.relationship('User', back_populates='boards')
-
     pins = db.relationship('Pin', secondary=pin_boards, back_populates='boards')
 
     def to_dict(self):
