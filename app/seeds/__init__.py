@@ -15,20 +15,20 @@ seed_commands = AppGroup('seed')
 @seed_commands.command('all')
 def seed():
     if environment == 'production':
-        
-        undo_users()
-        undo_boards()
-        undo_favorites()
-        undo_comments()
-        undo_pins()
-        undo_pin_boards()
-       
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pin_boards RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.favorites RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.comments RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.pins RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.boards RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+        db.session.commit()
+    
 
     seed_users()
+    seed_pins()
     seed_boards()
     seed_favorites()
     seed_comments()
-    seed_pins()
     seed_pin_boards()
    
 

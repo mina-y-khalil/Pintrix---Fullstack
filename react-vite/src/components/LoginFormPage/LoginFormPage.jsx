@@ -58,6 +58,23 @@ function LoginFormPage() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
+
+         <button
+        type="button"
+        className="demo-login-button"
+        onClick={() => {
+          dispatch(sessionActions.login({
+            credential: 'demo@user.io',
+            password: 'password'
+          }))
+          .then(() => {
+            closeModal();
+            if (navigate) navigate('/');
+          })
+          .catch(() => {
+            setErrors({ credential: "Demo login failed" });
+          });
+        }}>Log in as Demo User</button>
       </form>
     </>
   );

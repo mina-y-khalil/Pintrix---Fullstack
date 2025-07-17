@@ -27,5 +27,7 @@ class Board(db.Model):
             'user_id': self.user_id,
             'name': self.name,
             'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'updated_at': self.updated_at.isoformat(),
+            'pins': [pin.to_dict() for pin in self.pins]
         }
+
