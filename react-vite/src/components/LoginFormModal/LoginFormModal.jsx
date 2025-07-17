@@ -53,6 +53,21 @@ function LoginFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
+
+      {/*DEMO-USER BUTTON -LA */}
+        <button
+        type="button"
+        onClick={async () => {
+          const serverResponse = await dispatch(
+            thunkLogin({ email: 'demo@aa.io', password: 'password' })
+          );
+          if (serverResponse) {
+            setErrors({ credntial: "Demo login failed"});
+          } else {
+            closeModal();
+          }
+        }}>Log in as Demo User</button>
+
       </form>
     </>
   );
