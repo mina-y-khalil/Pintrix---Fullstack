@@ -30,8 +30,7 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 COPY app ./app
 COPY migrations ./migrations
 COPY alembic.ini* .    
-COPY config.py* .      
-COPY start.sh .        
+COPY config.py* .            
 
 # Create static dir and copy React build from previous stage
 RUN mkdir -p app/static
