@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required
 from app.models import User
+from app.models import Board
 
 user_routes = Blueprint('users', __name__)
 
@@ -23,3 +24,14 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+
+#VIEW ALL BOARDS FROM USER -LA
+@user_routes.route('/<int:id>/boards')
+@login_required
+def user_boards(id):
+    """
+    Query for all boards belonging to a specific user and returns them in a list of board dictionaries
+    """
+    boards = Board.query.filter_by(user_id=id).all()
+    return {'boards': [board.to_dict() for board in boards]}
