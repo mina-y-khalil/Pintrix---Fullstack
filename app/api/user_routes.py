@@ -26,12 +26,9 @@ def user(id):
     return user.to_dict()
 
 
-#VIEW ALL BOARDS FROM USER -LA
-@user_routes.route('/<int:id>/boards')
-@login_required
-def user_boards(id):
+@user_routes.route('/<int:id>/boards', methods=['GET'])
+def get_user_boards(id):
     """
-    Query for all boards belonging to a specific user and returns them in a list of board dictionaries
+    Get all boards for a specific user (public profile)
     """
     boards = Board.query.filter_by(user_id=id).all()
-    return {'boards': [board.to_dict() for board in boards]}
