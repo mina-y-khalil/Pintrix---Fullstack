@@ -7,8 +7,8 @@ favorite_routes = Blueprint('favorites', __name__)
 @favorite_routes.route('/')
 @login_required
 def view_favorites():
-    favs = db.session.query(Favorite).filter(Favorite.user_id == current_user.id).all()
-    return {'favs': [fav.to_dict() for fav in favs]}
+    pins = db.session.query(Pin).filter(Favorite.pin_id==Pin.id).filter(Favorite.user_id == current_user.id).all()
+    return {'pins': [pin.to_dict() for pin in pins]}
 
 
 @favorite_routes.route('/', methods=['POST'])
