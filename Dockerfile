@@ -9,7 +9,7 @@ RUN npm run build
 #STAGE 2 BACKEND FLASK
 FROM python:3.9.18-alpine3.18
 
-RUN apk add --no-cache build-base postgresql-dev gcc python3-dev musl-dev
+RUN apk add --no-cache build-base postgresql-dev postgresql-client gcc python3-dev musl-dev
 
 ARG FLASK_APP
 ARG FLASK_ENV
