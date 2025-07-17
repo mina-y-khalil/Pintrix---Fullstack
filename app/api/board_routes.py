@@ -5,6 +5,16 @@ from app.models import db, User, Board, Pin, pin_boards
 
 board_routes = Blueprint('boards', __name__)
 
+#VIEW ALL BOARDS FROM CURRENT USER -LA
+@board_routes.route('/', methods=['GET'])
+@login_required
+def get_current_user_boards():
+    """
+    Get all boards for the current logged-in user
+    """
+    boards = Board.query.options(db.joinedload(Board.pins)).filter_by(user_id=current_user.id).all()
+    return {'boards': [board.to_dict() for board in boards]}, 200
+
 #CREATE BOARD -LA
 @board_routes.route('/', methods=['POST'])
 @login_required
@@ -56,7 +66,7 @@ def add_pin_to_board(board_id):
     board.pins.append(pin)
     db.session.commit()
 
-    return {'message': 'Pin added to board'}, 200
+    return pin.to_dict(), 200
 
 #REMOVE PIN FROM A BOARD -LA
 @board_routes.route('/<int:board_id>/pins/<int:pin_id>', methods=['DELETE'])
