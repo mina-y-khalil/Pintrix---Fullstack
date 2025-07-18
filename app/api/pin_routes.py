@@ -1,16 +1,16 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Pin, db
+from app.models import Pin, Favorite, db
 
 pin_routes = Blueprint('pins', __name__)
 
-#get all pins &return list of pins
+# Get all pins and return as a list of dictionaries
 @pin_routes.route('/', methods=['GET'])
 def get_all_pins():
     pins = Pin.query.all()
     return jsonify([pin.to_dict() for pin in pins])
 
-#get a single pin by ID
+# Get a single pin by its ID
 @pin_routes.route('/<int:id>', methods=['GET'])
 def get_pin_by_id(id):
     pin = Pin.query.get(id)
@@ -18,7 +18,7 @@ def get_pin_by_id(id):
         return pin.to_dict()
     return {'errors': 'Pin not found'}, 404
 
-#only logged in users can create a new pin
+# Only logged-in users can create a new pin
 @pin_routes.route('/', methods=['POST'])
 @login_required
 def create_pin():
@@ -27,14 +27,14 @@ def create_pin():
         user_id=current_user.id,
         title=data.get('title'),
         image_url=data.get('image_url'),
-        description=data.get('description'),
-        likes_count=data.get('likes_count', 0)
+        description=data.get('description')
+        # likes_count is not set by user, defaults to 0
     )
     db.session.add(new_pin)
     db.session.commit()
     return new_pin.to_dict(), 201
 
-#only owner can update pin
+# Only the owner can update their pin
 @pin_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_pin(id):
@@ -44,16 +44,16 @@ def update_pin(id):
     if pin.user_id != current_user.id:
         return {'errors': 'Unauthorized'}, 403
 
-#update pin if new info is added
+    # Update pin fields if new info is provided
     data = request.get_json()
     pin.title = data.get('title', pin.title)
     pin.image_url = data.get('image_url', pin.image_url)
     pin.description = data.get('description', pin.description)
-    pin.likes_count = data.get('likes_count', pin.likes_count)
+    # likes_count is not updated by user
     db.session.commit()
     return pin.to_dict()
 
-#only owner can delete pins
+# Only the owner can delete their pin
 @pin_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_pin(id):
@@ -66,4 +66,37 @@ def delete_pin(id):
     db.session.delete(pin)
     db.session.commit()
     return {'message': 'Pin deleted successfully'}
-    #deleted pin confermation 
+
+# Favorite a pin (user can only favorite once)
+@pin_routes.route('/<int:id>/favorite', methods=['POST'])
+@login_required
+def favorite_pin(id):
+    pin = Pin.query.get(id)
+    if not pin:
+        return {'errors': 'Pin not found'}, 404
+
+    # Prevent duplicate favorites
+    existing = Favorite.query.filter_by(user_id=current_user.id, pin_id=id).first()
+    if existing:
+        return {'message': 'Already favorited'}, 200
+
+    favorite = Favorite(user_id=current_user.id, pin_id=id)
+    db.session.add(favorite)
+    pin.likes_count += 1  # Increment likes count
+    db.session.commit()
+    return {'message': 'Pin favorited'}
+
+# Unfavorite a pin
+@pin_routes.route('/<int:id>/favorite', methods=['DELETE'])
+@login_required
+def unfavorite_pin(id):
+    favorite = Favorite.query.filter_by(user_id=current_user.id, pin_id=id).first()
+    if not favorite:
+        return {'errors': 'Not favorited'}, 404
+
+    db.session.delete(favorite)
+    pin = Pin.query.get(id)
+    if pin and pin.likes_count > 0:
+        pin.likes_count -= 1  # Decrement likes count
+    db.session.commit()
+    return {'message': 'Pin unfavorited'}
