@@ -12,8 +12,10 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  // If user is already logged in, redirect to home
   if (sessionUser) return <Navigate to="/" replace={true} />;
 
+  // Handle form submission for login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,10 +33,26 @@ function LoginFormPage() {
     }
   };
 
+  // Handle demo user login
+  const handleDemoLogin = async () => {
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io', // Use your actual demo user email
+        password: 'password'
+      })
+    );
+    if (serverResponse) {
+      setErrors({ credential: "Demo login failed" });
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <>
       <h1>Log In</h1>
-      {errors.length > 0 &&
+      {/* Display errors if any */}
+      {Array.isArray(errors) && errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
         <label>
@@ -59,22 +77,14 @@ function LoginFormPage() {
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
 
-         <button
-        type="button"
-        className="demo-login-button"
-        onClick={() => {
-          dispatch(sessionActions.login({
-            credential: 'demo@user.io',
-            password: 'password'
-          }))
-          .then(() => {
-            closeModal();
-            if (navigate) navigate('/');
-          })
-          .catch(() => {
-            setErrors({ credential: "Demo login failed" });
-          });
-        }}>Log in as Demo User</button>
+        {/* Demo User Login Button */}
+        <button
+          type="button"
+          className="demo-login-button"
+          onClick={handleDemoLogin}
+        >
+          Log in as Demo User
+        </button>
       </form>
     </>
   );
