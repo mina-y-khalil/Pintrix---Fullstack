@@ -19,8 +19,8 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "favorites",          // ✅ NEW ROUTE
-        element: <FavoritesList />, // ✅ NEW COMPONENT
+        path: "favorites",          
+        element: <FavoritesList />, 
       },
       {
         path: "signup",
