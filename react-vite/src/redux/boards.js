@@ -1,226 +1,242 @@
-import { csrfFetch } from '../csrf';
-
 // Action Types
-const LOAD_BOARDS = 'board/loadBoards';
-const LOAD_BOARD = 'board/loadBoard';
-const ADD_BOARD = 'board/addBoard';
-const UPDATE_BOARD = 'board/updateBoard';
-const DELETE_BOARD = 'board/deleteBoard';
-const ADD_PIN = 'board/addPin';
-const DELETE_PIN = 'board/deletePin';
+const LOAD_BOARDS = 'boards/loadBoards';
+const ADD_BOARD = 'boards/addBoard';
+const UPDATE_BOARD = 'boards/updateBoard';
+const DELETE_BOARD = 'boards/deleteBoard';
+const ADD_PIN = 'boards/addPin';
+const REMOVE_PIN = 'boards/removePin';
 
 // Action Creators
-export const loadBoards = (boards) => ({
-    type: LOAD_BOARDS,
-    boards
+const loadBoards = (boards) => ({
+  type: LOAD_BOARDS,
+  payload: boards,
 });
-export const loadBoard = (board) => ({
-    type: LOAD_BOARD,
-    board
+
+const addBoard = (board) => ({
+  type: ADD_BOARD,
+  payload: board,
 });
-export const addBoard = (board) => ({
-    type: ADD_BOARD,
-    board
+
+const updateBoard = (board) => ({
+  type: UPDATE_BOARD,
+  payload: board,
 });
-export const updateBoard = (board) => ({
-    type: UPDATE_BOARD,
-    board
+
+const deleteBoard = (boardId) => ({
+  type: DELETE_BOARD,
+  payload: boardId,
 });
-export const deleteBoard = (boardId) => ({
-    type: DELETE_BOARD,
-    boardId
+
+const addPin = (boardId, pin) => ({
+  type: ADD_PIN,
+  payload: { boardId, pin },
 });
-export const addPinToBoard = (boardId, pin) => ({
-    type: ADD_PIN,
-    boardId,
-    pin
+
+const removePin = (boardId, pinId) => ({
+  type: REMOVE_PIN,
+  payload: { boardId, pinId },
 });
-export const deletePinFromBoard = (boardId, pinId) => ({
-    type: DELETE_PIN,
-    boardId,
-    pinId
-});
+
+
 
 // THUNKS
 
-// Fetch all boards from the API
-export const fetchBoards = () => async (dispatch, getState) => {
-    const response = await csrfFetch('/api/boards');
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(loadBoards(data.boards)); 
-        return data.boards
-    }
+// Get all boards for current user
+export const thunkFetchBoards = () => async (dispatch) => {
+  const res = await fetch('/api/boards/', {
+    method: 'GET',
+    credentials: 'include', // Ensure cookies are sent
+  });
 
-    if (response.status === 401){
-        dispatch(loadBoards([]));
-    }
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(loadBoards(data.boards));
+  }
 };
 
-// Fetch a single board by ID
-export const fetchBoard = (id) => async (dispatch) => {
-    const response = await csrfFetch(`/api/boards/${id}`);
-    if (response.ok) {
-        const data = await response.json();
-        dispatch(loadBoard(data));
-    }
+// Fetch a single board with its pins
+export const thunkFetchBoard = (boardId) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}`, {
+    method: 'GET',
+    credentials: 'include',
+  });
+
+  if (res.ok) {
+    const board = await res.json();
+    dispatch(addBoard(board)); // Add/replace this board in entries
+    return board;
+  } else {
+    const error = await res.json();
+    return error;
+  }
 };
 
 // Create a new board
-export const createBoard = (payload) => async (dispatch) => {
-    const response = await csrfFetch('/api/boards', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    });
+export const thunkCreateBoard = (name) => async (dispatch) => {
+  const res = await fetch('/api/boards/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ name }),
+  });
 
-    if (response.ok) {
-        const board = await response.json();
-        dispatch(addBoard(board));
-        return board;
-    } else {
-        const error = await response.json();
-        throw error;
-    }
+  if (res.ok) {
+    const board = await res.json();
+    dispatch(addBoard(board));
+    return board;
+  } else {
+    const error = await res.json();
+    return error;
+  }
 };
 
-// Edit an existing board
-export const editBoard = (payload) => async (dispatch) => {
-    const response = await csrfFetch(`/api/boards/${payload.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    });
+// Update board name
+export const thunkUpdateBoard = (boardId, name) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ name }),
+  });
 
-    if (response.ok) {
-        const board = await response.json();
-        dispatch(updateBoard(board));
-        return board;
-    } else {
-        const error = await response.json();
-        throw error;
-    }
+  if (res.ok) {
+    const board = await res.json();
+    dispatch(updateBoard(board));
+    return board;
+  } else {
+    const error = await res.json();
+    return error;
+  }
 };
 
-// Delete a board
-export const removeBoard = (boardId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/boards/${boardId}`, {
-        method: 'DELETE'
-    });
+// Delete board
+export const thunkDeleteBoard = (boardId) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
 
-    if (res.ok) {
-        dispatch(deleteBoard(boardId));
-    }
+  if (res.ok) {
+    dispatch(deleteBoard(boardId));
+  }
 };
 
-// Add a pin to a board
-export const addPin = (boardId, pinId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/boards/${boardId}/pins`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pin_id: pinId })
-    });
+// Add pin to board
+export const thunkAddPinToBoard = (boardId, pinId) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}/pins`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ pin_id: pinId }),
+  });
 
-    const data = await res.json();
-
-    if (res.ok && !data.message) {
-        dispatch(addPinToBoard(boardId, data));
-        return data;
-    } else if (data.message) {
-        return data;
-    } else {
-        throw data;
-    }
+  if (res.ok) {
+    const pin = await res.json();
+    dispatch(addPin(boardId, pin));
+    return pin;
+  } else {
+    const error = await res.json();
+    return error;
+  }
 };
 
-// Remove a pin from a board
-export const deletePin = (boardId, pinId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/boards/${boardId}/pins/${pinId}`, {
-        method: 'DELETE'
-    });
+// Remove pin from board
+export const thunkRemovePinFromBoard = (boardId, pinId) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}/pins/${pinId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
 
-    if (res.ok) {
-        dispatch(deletePinFromBoard(boardId, pinId));
-    }
+  if (res.ok) {
+    dispatch(removePin(boardId, pinId));
+  }
+};
+
+// Reorder pins in a board
+export const thunkReorderPinsInBoard = (boardId, pinIds) => async (dispatch) => {
+  const res = await fetch(`/api/boards/${boardId}/pins/reorder`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ pin_ids: pinIds }),
+  });
+
+  if (res.ok) {
+    const updatedPins = await res.json();
+    dispatch(updateBoard({ ...state.entries[boardId], pins: updatedPins }));
+    return updatedPins;
+  } else {
+    const error = await res.json();
+    return error;
+  }
 };
 
 
-const initialState = { entries: {}, isLoading: true };
 
-// REDUCERS
-const boardsReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case LOAD_BOARDS: {
-            const normalizedBoards = {};
-            action.boards.forEach(board => {
-                normalizedBoards[board.id] = board;
-            });
-            return { ...state, entries: normalizedBoards, isLoading: false };
-        }
-        case LOAD_BOARD: {
-            return {
-                ...state,
-                entries: {
-                    ...state.entries,
-                    [action.board.id]: action.board
-                },
-                isLoading: false
-            };
-        }
-        case ADD_BOARD: {
-            return {
-                ...state,
-                entries: { ...state.entries, [action.board.id]: action.board }
-            };
-        }
-        case UPDATE_BOARD: {
-            return {
-                ...state,
-                entries: { ...state.entries, [action.board.id]: action.board }
-            };
-        }
-        case DELETE_BOARD: {
-            const newEntries = { ...state.entries };
-            delete newEntries[action.boardId];
-            return { ...state, entries: newEntries };
-        }
-        case ADD_PIN: {
-            const board = state.entries[action.boardId];
-            if (!board) return state;
-            
-            const updatedBoard = {
-                ...board,
-                pins: [...(board.pins || []), action.pin] 
-            };
 
-            return {
-                ...state,
-                entries: {
-                    ...state.entries,
-                    [action.boardId]: updatedBoard
-                }
-            };
-        }
-        case DELETE_PIN: {
-            const board = state.entries[action.boardId];
-            if (!board) return state;
 
-            const updatedBoard = {
-                ...board,
-                pins: board.pins ? board.pins.filter(pin => pin.id !== action.pinId) : []
-            };
 
-            return {
-                ...state,
-                entries: {
-                    ...state.entries,
-                    [action.boardId]: updatedBoard
-                }
-            };
-        }
-        default:
-            return state;
-    }
+// Initial State
+const initialState = {
+  entries: {}, // { [boardId]: { id, name, pins: [] } }
 };
 
-export default boardsReducer;
+// Reducer
+function boardReducer(state = initialState, action) {
+  switch (action.type) {
+    case LOAD_BOARDS: {
+      const newEntries = {};
+      action.payload.forEach((board) => {
+        newEntries[board.id] = board;
+      });
+      return { ...state, entries: newEntries };
+    }
+
+    case ADD_BOARD:
+      return {
+        ...state,
+        entries: { ...state.entries, [action.payload.id]: action.payload },
+      };
+
+    case UPDATE_BOARD:
+      return {
+        ...state,
+        entries: { ...state.entries, [action.payload.id]: action.payload },
+      };
+
+    case DELETE_BOARD: {
+      const newEntries = { ...state.entries };
+      delete newEntries[action.payload];
+      return { ...state, entries: newEntries };
+    }
+
+    case ADD_PIN: {
+      const { boardId, pin } = action.payload;
+      const updatedBoard = {
+        ...state.entries[boardId],
+        pins: [...state.entries[boardId].pins, pin],
+      };
+      return {
+        ...state,
+        entries: { ...state.entries, [boardId]: updatedBoard },
+      };
+    }
+
+    case REMOVE_PIN: {
+      const { boardId, pinId } = action.payload;
+      const updatedBoard = {
+        ...state.entries[boardId],
+        pins: state.entries[boardId].pins.filter((pin) => pin.id !== pinId),
+      };
+      return {
+        ...state,
+        entries: { ...state.entries, [boardId]: updatedBoard },
+      };
+    }
+
+    default:
+      return state;
+  }
+}
+
+export default boardReducer;
