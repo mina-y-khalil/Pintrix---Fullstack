@@ -4,6 +4,11 @@ import SignupFormPage from '../components/SignupFormPage';
 import BoardList from '../components/BoardList';
 import Layout from './Layout';
 import FavoritesList from '../components/Favorites/FavoritesList';
+import PinsGrid from '../components/Pins/PinsGrid';
+import EditPinForm from "../components/Pins/EditPinForm";
+import PinDetail from "../components/Pins/PinDetail";
+
+
 
 
 export const router = createBrowserRouter([
@@ -30,6 +35,20 @@ export const router = createBrowserRouter([
         path: "boards",
         element: <BoardList />,
       },
+      {
+        path: "pins",
+        element: <PinsGrid />,
+      },
+      {
+        path: "pins/:id/edit",
+        element: <EditPinForm />,
+      },
+      {
+       path: "pins/:id",
+       element: <PinDetail />,
+      }
+
+
     ],
   },
 ]);
