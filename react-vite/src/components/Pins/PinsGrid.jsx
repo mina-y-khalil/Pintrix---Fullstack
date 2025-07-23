@@ -1,9 +1,14 @@
-// src/components/Pins/PinsGrid.jsx
-import { useSelector } from "react-redux";
-import "./PinsGrid.css"; // Optional: for styling
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPins } from "../../redux/pins";
 
 export default function PinsGrid() {
+  const dispatch = useDispatch();
   const pins = useSelector(state => Object.values(state.pins));
+
+  useEffect(() => {
+    dispatch(fetchPins());
+  }, [dispatch]);
 
   return (
     <div className="pins-grid">

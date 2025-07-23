@@ -1,11 +1,9 @@
-// src/redux/pins.js
-
 // ACTION TYPES
 const LOAD_PINS = 'pins/LOAD_PINS';
 const CREATE_PIN = 'pins/CREATE_PIN';
 const UPDATE_PIN = 'pins/UPDATE_PIN';
-const FAVORITE_PIN = 'pins/UPDATE_PIN';
-
+//const FAVORITE_PIN = 'pins/FAVORITE_PIN';
+//const UNFAVORITE_PIN = 'pins/UNFAVORITE_PIN';
 
 // ACTION CREATORS
 export const loadPins = (pins) => ({
@@ -23,14 +21,25 @@ export const updatePin = (pin) => ({
   pin,
 });
 
-// Helper to read CSRF cookie (for POST/PUT requests)
+//export const favoritePin = (pinId) => ({
+//  type: FAVORITE_PIN,
+//  pinId,
+//});
+
+//export const unfavoritePin = (pinId) => ({
+//  type: UNFAVORITE_PIN,
+//  pinId,
+//});
+
+
+// Helper to read CSRF cookie
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-// THUNK: Fetch all pins from backend
+// THUNK: Fetch all pins
 export const fetchPins = () => async (dispatch) => {
   const res = await fetch('/api/pins/');
   if (res.ok) {
@@ -47,7 +56,7 @@ export const createPin = (data) => async (dispatch) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrf_token'), // Required by Flask
+      'X-CSRFToken': getCookie('csrf_token'),
     },
     credentials: 'include',
     body: JSON.stringify(data),
@@ -108,7 +117,29 @@ export default function pinsReducer(state = initialState, action) {
         [action.pin.id]: action.pin,
       };
     }
+//     case FAVORITE_PIN: {
+//       const pin = state[action.pinId];
+//       if (!pin) return state;
+//       return {
+//         ...state,
+//         [action.pinId]: {
+//           ...pin,
+//           isFavorite: true,
+//         },
+//       };
+//     }
+//     case UNFAVORITE_PIN: {
+//       const pin = state[action.pinId];
+//       if (!pin) return state;
+ //      return {
+ //        ...state,
+ //        [action.pinId]: {
+ //          ...pin,
+ //          isFavorite: false,
+ //        },
+ //      };
+ //    }
     default:
-      return state;
-  }
+       return state;
+}
 }

@@ -66,7 +66,10 @@ export const router = createBrowserRouter([
       {
        path: "pins/:id",
        element: <PinDetail />,
-      }
+      },
+       { path: "pins/new", 
+        element: <CreatePinForm /> 
+      },
 
 
     ],
