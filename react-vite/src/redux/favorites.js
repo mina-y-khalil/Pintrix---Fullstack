@@ -23,10 +23,11 @@ const removeFavorite = (id) => ({
 
 // GET /api/favorites/
 export const fetchFavorites = () => async (dispatch) => {
-  const res = await fetch('/api/favorites/');
+  const res = await fetch('/api/favorites');
+  alert(res.status)
   if (res.ok) {
     const data = await res.json();
-    dispatch(loadFavorites(data.favs));
+    dispatch(loadFavorites(data.pins));
   }
 };
 
@@ -55,15 +56,13 @@ export const deleteFavorite = (id) => async (dispatch) => {
   }
 };
 
+const initialState = { entries: {}, isLoading: true };
+
 // Reducer
 const favoritesReducer = (state = {}, action) => {
   switch (action.type) {
     case LOAD_FAVORITES: {
-      const favState = {};
-      action.favs.forEach(fav => {
-        favState[fav.id] = fav;
-      });
-      return favState;
+      return { ...state, entries: {...state.entries}, enisLoading: false };
     }
 
     case ADD_FAVORITE:

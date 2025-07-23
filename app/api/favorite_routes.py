@@ -4,11 +4,23 @@ from app.models import Favorite, Pin, db
 
 favorite_routes = Blueprint('favorites', __name__)
 
+@favorite_routes.route('/<int:id>')
+@login_required
+def get_favorite(id):
+    fav = db.session.query(Favorite).filter(Favorite.pin_id==id).filter(Favorite.user_id == current_user.id).one_or_none()
+    return {'fav_id': "" if fav is None else fav.id}
+
+
 @favorite_routes.route('/')
 @login_required
 def view_favorites():
-    pins = db.session.query(Pin).filter(Favorite.pin_id==Pin.id).filter(Favorite.user_id == current_user.id).all()
-    return {'pins': [pin.to_dict() for pin in pins]}
+    print("#############"+str(current_user.id))
+    print("#############"+current_user.username)
+    result = db.session.query( Pin.image_url, Pin.title, Pin.likes_count).filter(Favorite.pin_id==Pin.id).filter(Favorite.user_id == current_user.id).all()
+    pins = []
+    for url, title, likes in result:
+        pins.append({'image_url':url, 'title':title, 'likes_count':likes})
+    return {'pins':pins}
 
 
 @favorite_routes.route('/', methods=['POST'])

@@ -5,7 +5,8 @@ import { fetchFavorites } from '../../redux/favorites';
 const FavoritesList = () => {
   const dispatch = useDispatch(); 
   // Get all favorite pins from Redux state
-  const pins = useSelector(state => Object.values(state.favorites || {}));
+  const pinsObj = useSelector(state => Object.values(state.favorites || {}));
+  const pins = Object.values(pinsObj);
 
   // Fetch favorites when the component mounts
   useEffect(() => {
@@ -14,8 +15,8 @@ const FavoritesList = () => {
 
   return (
     <div>
-      <h2>❤️ Your Favorite pins</h2>
-      {pins.length === 0 ? (
+      <h2>❤️ </h2>
+      {pins ? (
         <p>No favorited pin yet!</p>
       ) : (
         <div>
