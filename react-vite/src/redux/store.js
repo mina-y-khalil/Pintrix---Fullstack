@@ -11,6 +11,7 @@ import boardsReducer from "./boards";
 import boardReducer from "./boardReducer";
 import pinsReducer from "./pins";
 
+
 const rootReducer = combineReducers({
   session: sessionReducer,
   comments: commentsReducer,

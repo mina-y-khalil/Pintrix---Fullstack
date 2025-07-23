@@ -73,6 +73,9 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
+@app.route("/api/csrf/restore", methods=["GET"])
+def restore_csrf():
+    return {"csrf_token": generate_csrf()}
 
 @app.route("/api/docs")
 def api_help():
