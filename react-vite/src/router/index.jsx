@@ -13,6 +13,7 @@ import BoardDetail from '../components/BoardDetail';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
 import ManageBoards from '../components/ManageBoards/ManageBoards';
 import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
+import CreatePinForm from "../components/Pins/CreatePinForm";
 
 
 export const router = createBrowserRouter([
