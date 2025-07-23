@@ -31,7 +31,7 @@ function LoginFormModal() {
   return (
     <>
       <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <label>
           Email
           <input
@@ -41,7 +41,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-text">{errors.email}</p>}
         <label>
           Password
           <input
@@ -51,22 +51,24 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        {errors.password && <p className="error-text">{errors.password}</p>}
+        <button type="submit" className="login-button">Log In</button>
 
-      {/*DEMO-USER BUTTON -LA */}
+        {/*DEMO-USER BUTTON -LA */}
         <button
         type="button"
+        className="demo-login-button"
         onClick={async () => {
           const serverResponse = await dispatch(
             thunkLogin({ email: 'demo@aa.io', password: 'password' })
           );
           if (serverResponse) {
-            setErrors({ credntial: "Demo login failed"});
+            setErrors({ credential: "Demo login failed"});
           } else {
             closeModal();
           }
         }}>Log in as Demo User</button>
+
 
       </form>
     </>
