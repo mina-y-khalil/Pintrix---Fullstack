@@ -41,6 +41,11 @@ function SignupFormModal() {
   return (
     <div className="modal-wrapper">
       <h1>Sign Up</h1>
+      <img
+        src="https://redeem-innovations.com/wp-content/uploads/2025/07/signup.png"
+        alt="Sign Up Illustration"
+        className="signup-image"
+      />
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <label>
