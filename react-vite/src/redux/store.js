@@ -7,12 +7,12 @@ import {
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import commentsReducer from "./comments";
-import boardReducer from "./boardReducer";
+import boardsReducer from "./boards";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   comments: commentsReducer,
-  board: boardReducer,
+  boards: boardsReducer,
 });
 
 let enhancer;

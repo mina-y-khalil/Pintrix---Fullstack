@@ -31,7 +31,7 @@ class Pin(db.Model):
             'title': self.title,
             'description': self.description,
             'likes_count': self.likes_count,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
         }
 
