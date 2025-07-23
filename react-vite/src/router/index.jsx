@@ -3,19 +3,16 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import FavoritesList from '../components/Favorites/FavoritesList';
-<<<<<<< HEAD
 import PinsGrid from '../components/Pins/PinsGrid';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
 
 
-=======
 import BoardsList from '../components/BoardsList';
 import BoardDetail from '../components/BoardDetail';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
 import ManageBoards from '../components/ManageBoards/ManageBoards';
 import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
->>>>>>> dev
 
 
 export const router = createBrowserRouter([
