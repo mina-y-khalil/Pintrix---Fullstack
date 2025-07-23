@@ -27,7 +27,7 @@ function Navigation() {
       {/* Center: Nav Links */}
       <div className="nav-links">
         <NavLink to="/favorites" className="heart-btn">
-          <span className="heart">♥</span>
+          <span className="heart">♥️</span>
         </NavLink>
         <NavLink to="/pins" className="nav-btn">
           Pins
