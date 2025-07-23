@@ -1,0 +1,49 @@
+.manage-pins-page {
+  padding: 20px;
+}
+
+.pins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.pin-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  /* cursor styles removed since no drag/drop */
+  transition: transform 0.2s;
+}
+
+/* Optional: subtle hover scale for nice effect */
+.pin-card:hover {
+  transform: scale(1.02);
+}
+
+.pin-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.pin-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.delete-pin-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-pin-btn:hover {
+  background-color: #c0392b;
+}

@@ -49,44 +49,54 @@ function LoginFormPage() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
-      {/* Display errors if any */}
-      {Array.isArray(errors) && errors.length > 0 &&
-        errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+    <div className="login-page-container">
+      <div className="login-form-wrapper">
+        <h1>Log In</h1>
 
-        {/* Demo User Login Button */}
-        <button
-          type="button"
-          className="demo-login-button"
-          onClick={handleDemoLogin}
-        >
-          Log in as Demo User
-        </button>
-      </form>
-    </>
+        {Array.isArray(errors) && errors.length > 0 &&
+          errors.map((message) => <p key={message}>{message}</p>)}
+
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          {errors.email && <p>{errors.email}</p>}
+
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {errors.password && <p>{errors.password}</p>}
+
+          <button type="submit">Log In</button>
+
+          <button
+            type="button"
+            className="demo-login-button"
+            onClick={handleDemoLogin}
+          >
+            Log in as Demo User
+          </button>
+        </form>
+      </div>
+
+      <img
+        src="/login.png"
+        alt="Login Illustration"
+        className="signin-image"
+      />
+    </div>
   );
 }
 
