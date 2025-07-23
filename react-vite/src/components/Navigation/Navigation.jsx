@@ -1,23 +1,65 @@
 // Navigation.jsx
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
+import { useState } from "react";
+import BoardCreateModal from "../BoardCreateModal";
 import "./Navigation.css";
 
 function Navigation() {
+  const [showModal, setShowModal] = useState(false);
+  const user = useSelector((state) => state.session.user);
+
   return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
+    <nav className="nav-bar">
+      {/* Left: Logo */}
+      <div className="nav-left">
+        <NavLink to="/">
+          <img 
+            src="https://lodgr.s3.us-east-2.amazonaws.com/Navbar+Logo.jpg" 
+            alt="Pintrix Logo" 
+            className="nav-logo" 
+          />
+        </NavLink>
+      </div>
 
-      <li>
-        <NavLink to="/favorites">Favorites</NavLink>
-      </li>
+      {/* Center: Nav Links */}
+      <div className="nav-links">
+        <NavLink to="/favorites" className="heart-btn">
+          <span className="heart">♥</span>
+        </NavLink>
+        <NavLink to="/pins" className="nav-btn">
+          Pins
+        </NavLink>
+        <NavLink to="/boards" className="nav-btn">
+          Boards
+        </NavLink>
 
-      <li>
+        {/* Show only if logged in */}
+        {user && (
+          <>
+            <NavLink to="/pins/new" className="nav-btn">
+              Add New Pin
+            </NavLink>
+            <button
+              className="nav-btn"
+              onClick={() => setShowModal(true)}
+            >
+              Add New Board
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Right: Profile/Login */}
+      <div className="nav-profile">
         <ProfileButton />
-      </li>
-    </ul>
+      </div>
+
+      {showModal && (
+        <BoardCreateModal onClose={() => setShowModal(false)} />
+      )}
+    </nav>
   );
 }
 

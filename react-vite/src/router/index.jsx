@@ -1,10 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import BoardList from '../components/BoardList';
 import Layout from './Layout';
 import FavoritesList from '../components/FavoritesList/FavoritesList';
 
+import BoardsList from '../components/BoardList'; // ✅ Add these
+import BoardDetail from '../components/BoardDetail';
+import BoardCreateModal from '../components/BoardCreateModal';
+import ManageBoards from '../components/ManageBoards';
+import ManagePinsInBoard from '../components/ManagePinsInBoard';
 
 export const router = createBrowserRouter([
   {
@@ -19,18 +23,33 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "favorites",          // ✅ NEW ROUTE
-        element: <FavoritesList />, // ✅ NEW COMPONENT
-      },
-      {
         path: "signup",
         element: <SignupFormPage />,
       },
-            {
+      {
+        path: "favorites",
+        element: <FavoritesList />,
+      },
+      {
         path: "boards",
-        element: <BoardList />,
+        element: <BoardsList />,
+      },
+      {
+        path: "boards/:boardId",
+        element: <BoardDetail />,
+      },
+      {
+        path: "boards/create",
+        element: <BoardCreateModal />,
+      },
+      {
+        path: "boards/manage",
+        element: <ManageBoards />,
+      },
+      {
+        path: "boards/:boardId/manage-pins",
+        element: <ManagePinsInBoard />,
       },
     ],
   },
 ]);
-
