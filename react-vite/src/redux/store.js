@@ -9,6 +9,7 @@ import sessionReducer from "./session";
 import commentsReducer from "./comments";
 import boardsReducer from "./boards";
 
+
 const rootReducer = combineReducers({
   session: sessionReducer,
   comments: commentsReducer,
