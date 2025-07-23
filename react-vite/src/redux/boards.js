@@ -162,7 +162,7 @@ const initialState = {
 };
 
 // Reducer
-function boardReducer(state = initialState, action) {
+function boardsReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_BOARDS: {
       const newEntries = {};
@@ -219,4 +219,4 @@ function boardReducer(state = initialState, action) {
   }
 }
 
-export default boardReducer;
+export default boardsReducer;
