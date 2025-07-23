@@ -4,6 +4,8 @@
 const LOAD_PINS = 'pins/LOAD_PINS';
 const CREATE_PIN = 'pins/CREATE_PIN';
 const UPDATE_PIN = 'pins/UPDATE_PIN';
+const FAVORITE_PIN = 'pins/UPDATE_PIN';
+
 
 // ACTION CREATORS
 export const loadPins = (pins) => ({
