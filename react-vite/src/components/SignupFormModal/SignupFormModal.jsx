@@ -42,7 +42,7 @@ function SignupFormModal() {
     <div className="modal-wrapper">
       <h1>Sign Up</h1>
       <img
-        src="https://redeem-innovations.com/wp-content/uploads/2025/07/signup.png"
+        src="https://redeem-innovations.com/wp-content/uploads/2025/07/signup2.png"
         alt="Sign Up Illustration"
         className="signup-image"
       />

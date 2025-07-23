@@ -49,8 +49,13 @@ function LoginFormPage() {
   };
 
   return (
-    <>
+    <div className="modal-wrapper-signin">
       <h1>Log In</h1>
+      <img
+        src="/login.png"
+        alt="Login Illustration"
+        className="signin-image"
+      />
       {/* Display errors if any */}
       {Array.isArray(errors) && errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
@@ -86,7 +91,7 @@ function LoginFormPage() {
           Log in as Demo User
         </button>
       </form>
-    </>
+    </div>
   );
 }
 
