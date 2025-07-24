@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPins } from "../../redux/pins";
@@ -10,30 +10,17 @@ export default function PinsGrid() {
   const pins = useSelector(state => Object.values(state.pins));
   const favorites = useSelector(state => state.favorites || {});
   const currentUser = useSelector(state => state.session.user);
-  const [expandedPins, setExpandedPins] = useState(new Set());
 
   useEffect(() => {
     dispatch(fetchPins());
   }, [dispatch]);
 
-  const handleFavoriteToggle = (pinId) => {
+  const handleFavoriteClick = (pinId) => {
     if (favorites[pinId]) {
       dispatch(deleteFavorite(pinId));
     } else {
       dispatch(createFavorite(pinId));
     }
-  };
-
-  const handlePinClick = (pinId) => {
-    setExpandedPins(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(pinId)) {
-        newSet.delete(pinId);
-      } else {
-        newSet.add(pinId);
-      }
-      return newSet;
-    });
   };
 
   return (
@@ -47,21 +34,15 @@ export default function PinsGrid() {
               </Link>
               <button 
                 className={`favorite-button ${favorites[pin.id] ? 'favorited' : ''}`}
-                onClick={() => handleFavoriteToggle(pin.id)}
+                onClick={() => handleFavoriteClick(pin.id)}
               >
                 ♥
               </button>
             </div>
             
-            <div className="pin-content" onClick={() => handlePinClick(pin.id)}>
+            <Link to={`/pins/${pin.id}`}>
               <img src={pin.image_url} alt={pin.title} /> 
-              
-              {expandedPins.has(pin.id) && (
-                <div className="pin-description">
-                  <p>{pin.description}</p>
-                </div>
-              )}
-            </div>
+            </Link>
 
             {/* Conditional Edit Button */}
             {currentUser?.id === pin.user_id && (
@@ -74,7 +55,7 @@ export default function PinsGrid() {
           </div>
         ))
       ) : (
-        <p>Pins Loading ...</p>
+        <p>No pins yet. Let&apos;s get creative!</p>
       )}
     </div>
   );
