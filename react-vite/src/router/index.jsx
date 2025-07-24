@@ -2,9 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
-<<<<<<< HEAD
-import FavoritesList from '../components/FavoritesList/FavoritesList';
-=======
 import FavoritesList from '../components/Favorites/FavoritesList';
 import PinsGrid from '../components/Pins/PinsGrid';
 import EditPinForm from "../components/Pins/EditPinForm";
@@ -17,13 +14,7 @@ import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard
 import ManageBoards from '../components/ManageBoards/ManageBoards';
 import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
 import CreatePinForm from "../components/Pins/CreatePinForm";
->>>>>>> dev
 
-import BoardsList from '../components/BoardList'; // ✅ Add these
-import BoardDetail from '../components/BoardDetail';
-import BoardCreateModal from '../components/BoardCreateModal';
-import ManageBoards from '../components/ManageBoards';
-import ManagePinsInBoard from '../components/ManagePinsInBoard';
 
 export const router = createBrowserRouter([
   {
@@ -38,12 +29,12 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "signup",
-        element: <SignupFormPage />,
+        path: "favorites",          // ✅ NEW ROUTE
+        element: <FavoritesList />, // ✅ NEW COMPONENT
       },
       {
-        path: "favorites",
-        element: <FavoritesList />,
+        path: "signup",
+        element: <SignupFormPage />,
       },
       {
         path: "boards",
