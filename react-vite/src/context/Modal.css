@@ -1,4 +1,4 @@
-#modal {
+/* #modal {
   position: fixed;
   top: 0;
   right: 0;
@@ -19,6 +19,16 @@
 }
 
 #modal-content {
-  position: absolute;
+  position: relative;;
   background-color:white;
-}
+  padding: 100px 100px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 20px;
+
+} */

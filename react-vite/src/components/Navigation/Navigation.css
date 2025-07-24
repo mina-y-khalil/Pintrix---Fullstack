@@ -14,7 +14,7 @@
 }
 
 .nav-logo {
-  height: 100px; /* Shrunk logo */
+  height: 50px; /* Shrunk logo */
   width: auto;
   cursor: pointer;
 }

@@ -11,6 +11,9 @@ import sessionReducer from "./session";
 import commentsReducer from "./comments";
 import boardReducer from "./boardReducer";
 import favoritesReducer from "./favorites"; // ✅ Added this line
+import boardsReducer from "./boards";
+import pinsReducer from "./pins";
+
 
 // Combine reducers
 const rootReducer = combineReducers({
@@ -18,6 +21,8 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   board: boardReducer,
   favorites: favoritesReducer, // ✅ Added this line
+  boards: boardsReducer,
+  pins: pinsReducer,
 });
 
 // Middleware & DevTools setup

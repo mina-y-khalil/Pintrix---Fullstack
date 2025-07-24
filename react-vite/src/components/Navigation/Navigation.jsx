@@ -15,10 +15,10 @@ function Navigation() {
       {/* Left: Logo */}
       <div className="nav-left">
         <NavLink to="/">
-          <img 
-            src="https://lodgr.s3.us-east-2.amazonaws.com/Navbar+Logo.jpg" 
-            alt="Pintrix Logo" 
-            className="nav-logo" 
+          <img
+            src="https://redeem-innovations.com/wp-content/uploads/2025/07/Pintrix-Logo.png"
+            alt="Pintrix Logo"
+            className="nav-logo"
           />
         </NavLink>
       </div>

@@ -1,3 +1,5 @@
+import { csrfFetch } from "../csrf";
+
 // Action Types
 const LOAD_BOARDS = 'boards/loadBoards';
 const ADD_BOARD = 'boards/addBoard';
@@ -45,7 +47,7 @@ const removePin = (boardId, pinId) => ({
 export const thunkFetchBoards = () => async (dispatch) => {
   const res = await fetch('/api/boards/', {
     method: 'GET',
-    credentials: 'include', // Ensure cookies are sent
+    credentials: 'include', 
   });
 
   if (res.ok) {
@@ -73,7 +75,7 @@ export const thunkFetchBoard = (boardId) => async (dispatch) => {
 
 // Create a new board
 export const thunkCreateBoard = (name) => async (dispatch) => {
-  const res = await fetch('/api/boards/', {
+  const res = await csrfFetch('/api/boards/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -92,7 +94,7 @@ export const thunkCreateBoard = (name) => async (dispatch) => {
 
 // Update board name
 export const thunkUpdateBoard = (boardId, name) => async (dispatch) => {
-  const res = await fetch(`/api/boards/${boardId}`, {
+  const res = await csrfFetch(`/api/boards/${boardId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -111,7 +113,7 @@ export const thunkUpdateBoard = (boardId, name) => async (dispatch) => {
 
 // Delete board
 export const thunkDeleteBoard = (boardId) => async (dispatch) => {
-  const res = await fetch(`/api/boards/${boardId}`, {
+  const res = await csrfFetch(`/api/boards/${boardId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -123,7 +125,7 @@ export const thunkDeleteBoard = (boardId) => async (dispatch) => {
 
 // Add pin to board
 export const thunkAddPinToBoard = (boardId, pinId) => async (dispatch) => {
-  const res = await fetch(`/api/boards/${boardId}/pins`, {
+  const res = await csrfFetch(`/api/boards/${boardId}/pins`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -142,7 +144,7 @@ export const thunkAddPinToBoard = (boardId, pinId) => async (dispatch) => {
 
 // Remove pin from board
 export const thunkRemovePinFromBoard = (boardId, pinId) => async (dispatch) => {
-  const res = await fetch(`/api/boards/${boardId}/pins/${pinId}`, {
+  const res = await csrfFetch(`/api/boards/${boardId}/pins/${pinId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
@@ -152,28 +154,6 @@ export const thunkRemovePinFromBoard = (boardId, pinId) => async (dispatch) => {
   }
 };
 
-// Reorder pins in a board
-export const thunkReorderPinsInBoard = (boardId, pinIds) => async (dispatch) => {
-  const res = await fetch(`/api/boards/${boardId}/pins/reorder`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ pin_ids: pinIds }),
-  });
-
-  if (res.ok) {
-    const updatedPins = await res.json();
-    dispatch(updateBoard({ ...state.entries[boardId], pins: updatedPins }));
-    return updatedPins;
-  } else {
-    const error = await res.json();
-    return error;
-  }
-};
-
-
-
-
 
 
 // Initial State
@@ -182,7 +162,7 @@ const initialState = {
 };
 
 // Reducer
-function boardReducer(state = initialState, action) {
+function boardsReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_BOARDS: {
       const newEntries = {};
@@ -239,4 +219,4 @@ function boardReducer(state = initialState, action) {
   }
 }
 
-export default boardReducer;
+export default boardsReducer;
