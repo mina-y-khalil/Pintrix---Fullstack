@@ -4,11 +4,21 @@ from app.models import Favorite, Pin, db
 
 favorite_routes = Blueprint('favorites', __name__)
 
+@favorite_routes.route('/<int:id>')
+@login_required
+def get_favorite(id):
+    fav = db.session.query(Favorite).filter(Favorite.pin_id==id).filter(Favorite.user_id == current_user.id).one_or_none()
+    return {'fav_id': "" if fav is None else fav.id}
+
+
 @favorite_routes.route('/')
 @login_required
 def view_favorites():
-    pins = db.session.query(Pin).filter(Favorite.pin_id==Pin.id).filter(Favorite.user_id == current_user.id).all()
-    return {'pins': [pin.to_dict() for pin in pins]}
+    result = db.session.query(Favorite.id, Pin.image_url, Pin.title, Pin.likes_count).filter(Favorite.pin_id==Pin.id).filter(Favorite.user_id == current_user.id).all()
+    pins = []
+    for id, url, title, likes in result:
+        pins.append({'id':id, 'image_url':url, 'title':title, 'likes_count':likes})
+    return {'pins':pins}
 
 
 @favorite_routes.route('/', methods=['POST'])
@@ -16,16 +26,22 @@ def view_favorites():
 def favorite_pin():
     data = request.get_json()
     pin_id = data.get('pin_id')
-    pin = Pin.query.get(pin_id)
-    if not pin:
-        return {'errors': 'Pin not found'}, 404
+    fav = db.session.query(Favorite).filter(Favorite.pin_id==pin_id).filter(Favorite.user_id == current_user.id).one_or_none()
     new_fav = Favorite(
         user_id=current_user.id,
         pin_id=pin_id
     )
-    db.session.add(new_fav)
-    db.session.commit()
-    return new_fav.to_dict(), 201
+    if fav is  None:
+        pin = Pin.query.get(pin_id)
+        if not pin:
+            return {'errors': 'Pin not found'}, 404
+        db.session.add(new_fav)
+        db.session.commit()
+        db.session.flush()
+        fav = db.session.get(new_fav.id)
+        return fav.to_dict(), 201
+    else:
+        return {'errors': 'Duplicate favorite entry'}, 409
 
 
 @favorite_routes.route('/<int:id>', methods=['DELETE'])
