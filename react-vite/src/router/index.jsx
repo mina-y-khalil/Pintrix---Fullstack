@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
-import FavoritesList from '../components/Favorites/FavoritesList';
+import FavoritesList from "../components/FavoritesList/FavoritesList";
 import PinsGrid from '../components/Pins/PinsGrid';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
@@ -29,8 +29,8 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "favorites",          // ✅ NEW ROUTE
-        element: <FavoritesList />, // ✅ NEW COMPONENT
+        path: "favorites",          
+        element: <FavoritesList />, 
       },
       {
         path: "signup",
