@@ -2,18 +2,28 @@ import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
-
+<<<<<<< HEAD
 import FavoritesList from '../components/FavoritesList/FavoritesList';
+=======
+import FavoritesList from '../components/Favorites/FavoritesList';
 import PinsGrid from '../components/Pins/PinsGrid';
-import EditPinForm from '../components/Pins/EditPinForm';
-import PinDetail from '../components/Pins/PinDetail';
-import CreatePinForm from '../components/Pins/CreatePinForm';
+import EditPinForm from "../components/Pins/EditPinForm";
+import PinDetail from "../components/Pins/PinDetail";
 
-import BoardsList from '../components/BoardList';
+
+import BoardsList from '../components/BoardsList';
 import BoardDetail from '../components/BoardDetail';
-import BoardCreateModal from '../components/BoardCreateModal';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
 import ManageBoards from '../components/ManageBoards/ManageBoards';
+import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
+import CreatePinForm from "../components/Pins/CreatePinForm";
+>>>>>>> dev
+
+import BoardsList from '../components/BoardList'; // ✅ Add these
+import BoardDetail from '../components/BoardDetail';
+import BoardCreateModal from '../components/BoardCreateModal';
+import ManageBoards from '../components/ManageBoards';
+import ManagePinsInBoard from '../components/ManagePinsInBoard';
 
 export const router = createBrowserRouter([
   {
