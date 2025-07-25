@@ -6,13 +6,10 @@ import FavoritesList from "../components/FavoritesList/FavoritesList";
 import PinsGrid from '../components/Pins/PinsGrid';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
-
-
 import BoardsList from '../components/BoardsList';
 import BoardDetail from '../components/BoardDetail';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
-import ManageBoards from '../components/ManageBoards/ManageBoards';
-import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
+import BoardCreateForm from '../components/BoardCreateForm';
 import CreatePinForm from "../components/Pins/CreatePinForm";
 
 
@@ -37,20 +34,16 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
+        path: "boards/create",
+        element: <BoardCreateForm />,
+      },
+      {
         path: "boards",
         element: <BoardsList />,
       },
       {
         path: "boards/:boardId",
         element: <BoardDetail />,
-      },
-      {
-        path: "boards/create",
-        element: <BoardCreateModal />,
-      },
-      {
-        path: "boards/manage",
-        element: <ManageBoards />,
       },
       {
         path: "boards/:boardId/manage-pins",

@@ -93,12 +93,12 @@ export const thunkCreateBoard = (name) => async (dispatch) => {
 };
 
 // Update board name
-export const thunkUpdateBoard = (boardId, name) => async (dispatch) => {
+export const thunkUpdateBoard = (boardId, updatedFields) => async (dispatch) => {
   const res = await csrfFetch(`/api/boards/${boardId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ name }),
+    body: JSON.stringify(updatedFields),
   });
 
   if (res.ok) {
@@ -158,7 +158,7 @@ export const thunkRemovePinFromBoard = (boardId, pinId) => async (dispatch) => {
 
 // Initial State
 const initialState = {
-  entries: {}, // { [boardId]: { id, name, pins: [] } }
+  entries: {}, 
 };
 
 // Reducer

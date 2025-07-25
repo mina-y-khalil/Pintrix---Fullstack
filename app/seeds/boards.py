@@ -4,6 +4,12 @@ from sqlalchemy.sql import text
 
 
 def seed_boards():
+    jewelry_board = Board(
+        user_id=1, name='Jewelry Board')
+    vacation_board = Board(
+        user_id=1, name='Vacation Board')
+    animal_board = Board(
+        user_id=1, name='Animal Board')
     cute_dogs = Board(
         user_id=1, name='Cute Dogs')
     cute_cats = Board(
@@ -24,6 +30,9 @@ def seed_boards():
         user_id=3, name='Book Recommendations')
 
     db.session.add_all([
+        jewelry_board,
+        vacation_board,
+        animal_board,
         cute_dogs,
         cute_cats,
         patio_furniture,
