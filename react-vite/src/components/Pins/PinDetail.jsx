@@ -2,7 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchPins, deletePin } from "../../redux/pins";
-import { createFavorite, deleteFavorite } from "../../redux/favorites";
+import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
 import "./PinsGrid.css";
 import "./PinDetail.css";
 
@@ -24,6 +24,8 @@ export default function PinDetail() {
   
   const currentUser = useSelector((state) => state?.session?.user);
   const isFavorited = useSelector((state) => !!state?.favorites?.[id]);
+  // Use the same approach as your teammate for favorites count
+  const favorites = useSelector(state => Object.values(state.favorites || {}));
   const comments = useSelector((state) => {
     const commentsState = state?.comments || {};
     return Object.values(commentsState).filter(
@@ -35,6 +37,8 @@ export default function PinDetail() {
     if (!pin) {
       dispatch(fetchPins());
     }
+    // Fetch favorites when component mounts
+    dispatch(fetchFavorites());
   }, [dispatch, pin]);
 
   const handleFavoriteClick = () => {
@@ -57,46 +61,85 @@ export default function PinDetail() {
   }
 
   return (
-    <div className="pin-detail">
-      {/* Header with title and heart button positioned at top right */}
-      <div className="pin-header">
-        <h2>{pin.title}</h2>
-        <button 
-          className={`favorite-button ${isFavorited ? 'favorited' : ''}`}
-          onClick={handleFavoriteClick}
-        >
-          ♥
-        </button>
-      </div>
-      
-      {/* Fixed image property name from imageUrl to image_url */}
-      <img src={pin.image_url} alt={pin.title} />
-      <p>{pin.description}</p>
-
-      {/* Action buttons only for pin owner */}
-      {currentUser?.id === pin.user_id && (
-        <div className="action-buttons">
-          <Link to={`/pins/${pin.id}/edit`}>
-            <button>Edit This Pin</button>
-          </Link>
-          <button onClick={handleDelete}>Delete This Pin</button>
+    <div className="pin-detail-container">
+      <div className="pin-detail-content">
+        {/* Left Column - Pin Information */}
+        <div className="pin-info">
+          <h1 className="pin-title">{pin.title}</h1>
+          <p className="pin-owner">Pin owner: {pin.user?.username || "Unknown"}</p>
+          
+          <div className="pin-stats">
+            <span className="favorites-count">
+              <span className="heart-icon">♥</span> {favorites.length}
+            </span>
+          </div>
+          
+          <div className="pin-description">
+            <p>{pin.description}</p>
+          </div>
+          
+          <button className="add-comment-btn">
+            Add Comment
+          </button>
         </div>
-      )}
+
+        {/* Right Column - Image and Actions */}
+        <div className="pin-image-section">
+          <div className="image-container">
+            <img src={pin.image_url} alt={pin.title} />
+            <button className="share-btn">↪</button>
+          </div>
+          
+          <div className="action-buttons">
+            <button 
+              className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
+              onClick={handleFavoriteClick}
+            >
+              {isFavorited ? 'Remove from Favourites' : 'Add To Favourites'}
+            </button>
+            
+            <button className="add-to-board-btn">
+              Add To Board
+            </button>
+            
+            {/* Edit & Delete buttons for pin owner */}
+            {currentUser?.id === pin.user_id && (
+              <div className="owner-actions">
+                <Link to={`/pins/${pin.id}/edit`}>
+                <button className="edit-btn">Edit This Pin</button>
+             </Link>
+                <button className="delete-btn" onClick={handleDelete}>
+              Delete This Pin
+            </button>
+            </div>
+            )}
+          </div>
+        </div>
+      </div>
 
       {/* Comments Section */}
       <div className="comments-section">
-        <h3>Comments</h3>
+        <h3>Comments:</h3>
         {comments.length === 0 ? (
           <p>No comments yet. Be the first!</p>
         ) : (
-          <ul>
+          <div className="comments-list">
             {comments.map((comment) => (
-              <li key={comment.id}>
-                <strong>{comment.user?.username || "Anonymous"}:</strong>{" "}
-                {comment.body}
-              </li>
+              <div key={comment.id} className="comment-item">
+                <div className="comment-header">
+                  <span className="comment-author">{comment.user?.username || "Anonymous"}</span>
+                  <span className="comment-date">Date {new Date(comment.createdAt).toLocaleDateString()}</span>
+                </div>
+                <p className="comment-body">{comment.body}</p>
+                {currentUser?.id === comment.user_id && (
+                  <div className="comment-actions">
+                    <button className="edit-comment">Edit</button>
+                    <button className="delete-comment">Delete</button>
+                  </div>
+                )}
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>
