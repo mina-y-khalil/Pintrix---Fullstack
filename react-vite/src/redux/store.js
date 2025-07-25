@@ -9,6 +9,7 @@ import sessionReducer from "./session";
 import commentsReducer from "./comments";
 import boardsReducer from "./boards";
 import pinsReducer from "./pins";
+import favoritesReducer from "./favorites"; // ADD THIS IMPORT
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   boards: boardsReducer,
   pins: pinsReducer,
+  favorites: favoritesReducer, // ADD THIS LINE
 });
 
 let enhancer;

@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { fetchPins, deletePin } from "../../redux/pins";
 import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
 import "./PinsGrid.css";
@@ -21,28 +21,17 @@ export default function PinDetail() {
 
   const currentUser = useSelector((state) => state?.session?.user);
   
-  // FIXED: Get all favorites as an array, not an object
-  const allFavorites = useSelector((state) => state?.favorites || []);
+  const fullState = useSelector((state) => state);
+  const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
+  const favoritesArray = useMemo(() => Object.values(allFavorites), [allFavorites]);
   
-  // Add debugging here
-  console.log('=== DEBUG FAVORITES ===');
-  console.log('All favorites:', allFavorites);
-  console.log('Current pin ID:', id, 'Type:', typeof id);
+  const isFavorited = useMemo(() => {
+    return favoritesArray.some(fav => fav.pin_id === Number(id));
+  }, [favoritesArray, id]);
   
-  // Check if this specific pin is favorited by the current user
-  const isFavorited = allFavorites.some(fav => {
-    console.log('Checking favorite:', fav, 'fav.pin_id:', fav.pin_id, 'Type:', typeof fav.pin_id);
-    return fav.pin_id === Number(id);
-  });
-  
-  // Count favorites for THIS specific pin
-  const favoritesCount = allFavorites.filter(fav => {
-    const matches = fav.pin_id === Number(id);
-    console.log('Favorite pin_id:', fav.pin_id, 'matches current pin:', matches);
-    return matches;
-  }).length;
-  
-  console.log('Final favorites count for pin', id, ':', favoritesCount);
+  const favoritesCount = useMemo(() => {
+    return favoritesArray.filter(fav => fav.pin_id === Number(id)).length;
+  }, [favoritesArray, id]);
   
   const comments = useSelector((state) => {
     const commentsState = state?.comments || {};
@@ -60,8 +49,7 @@ export default function PinDetail() {
 
   const handleFavoriteClick = () => {
     if (isFavorited) {
-      // Find the favorite ID to delete - FIXED: Use allFavorites array
-      const favoriteToDelete = allFavorites.find(fav => fav.pin_id === Number(id));
+      const favoriteToDelete = favoritesArray.find(fav => fav.pin_id === Number(id));
       if (favoriteToDelete) {
         dispatch(deleteFavorite(favoriteToDelete.id));
       }
