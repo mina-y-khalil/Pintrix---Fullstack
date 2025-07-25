@@ -11,21 +11,39 @@ export default function PinDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Safely access pins state to prevent "Cannot read properties of undefined" error
   const pins = useSelector((state) => state?.pins || {});
-  
-  // Handle both object and array formats for pins data
   let pin = null;
-  if (pins && typeof pins === 'object') {
+  if (pins && typeof pins === "object") {
     pin = pins[id];
   } else if (Array.isArray(pins)) {
-    pin = pins.find(p => p.id === Number(id));
+    pin = pins.find((p) => p.id === Number(id));
   }
-  
+
   const currentUser = useSelector((state) => state?.session?.user);
-  const isFavorited = useSelector((state) => !!state?.favorites?.[id]);
-  // Use the same approach as your teammate for favorites count
-  const favorites = useSelector(state => Object.values(state.favorites || {}));
+  
+  // FIXED: Get all favorites as an array, not an object
+  const allFavorites = useSelector((state) => state?.favorites || []);
+  
+  // Add debugging here
+  console.log('=== DEBUG FAVORITES ===');
+  console.log('All favorites:', allFavorites);
+  console.log('Current pin ID:', id, 'Type:', typeof id);
+  
+  // Check if this specific pin is favorited by the current user
+  const isFavorited = allFavorites.some(fav => {
+    console.log('Checking favorite:', fav, 'fav.pin_id:', fav.pin_id, 'Type:', typeof fav.pin_id);
+    return fav.pin_id === Number(id);
+  });
+  
+  // Count favorites for THIS specific pin
+  const favoritesCount = allFavorites.filter(fav => {
+    const matches = fav.pin_id === Number(id);
+    console.log('Favorite pin_id:', fav.pin_id, 'matches current pin:', matches);
+    return matches;
+  }).length;
+  
+  console.log('Final favorites count for pin', id, ':', favoritesCount);
+  
   const comments = useSelector((state) => {
     const commentsState = state?.comments || {};
     return Object.values(commentsState).filter(
@@ -37,13 +55,16 @@ export default function PinDetail() {
     if (!pin) {
       dispatch(fetchPins());
     }
-    // Fetch favorites when component mounts
     dispatch(fetchFavorites());
   }, [dispatch, pin]);
 
   const handleFavoriteClick = () => {
     if (isFavorited) {
-      dispatch(deleteFavorite(id));
+      // Find the favorite ID to delete - FIXED: Use allFavorites array
+      const favoriteToDelete = allFavorites.find(fav => fav.pin_id === Number(id));
+      if (favoriteToDelete) {
+        dispatch(deleteFavorite(favoriteToDelete.id));
+      }
     } else {
       dispatch(createFavorite(id));
     }
@@ -65,22 +86,23 @@ export default function PinDetail() {
       <div className="pin-detail-content">
         {/* Left Column - Pin Information */}
         <div className="pin-info">
-          <h1 className="pin-title">{pin.title}</h1>
-          <p className="pin-owner">Pin owner: {pin.user?.username || "Unknown"}</p>
-          
+          <div className="pin-title">{pin.title}</div>
+          <div className="pin-owner">Pin owner: Unknown</div>
+
           <div className="pin-stats">
             <span className="favorites-count">
-              <span className="heart-icon">♥</span> {favorites.length}
+              <span className="heart-icon">♥</span> {favoritesCount}
             </span>
           </div>
-          
+
           <div className="pin-description">
-            <p>{pin.description}</p>
+            <div className="pin-description-text">{pin.description}</div>
           </div>
-          
-          <button className="add-comment-btn">
-            Add Comment
-          </button>
+
+          {/* Only show comment button if user is NOT the pin owner */}
+          {currentUser?.id !== pin.user_id && (
+            <button className="add-comment-btn">Add Comment</button>
+          )}
         </div>
 
         {/* Right Column - Image and Actions */}
@@ -89,29 +111,26 @@ export default function PinDetail() {
             <img src={pin.image_url} alt={pin.title} />
             <button className="share-btn">↪</button>
           </div>
-          
+
           <div className="action-buttons">
-            <button 
-              className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
+            <button
+              className={`favorite-btn ${isFavorited ? "favorited" : ""}`}
               onClick={handleFavoriteClick}
             >
-              {isFavorited ? 'Remove from Favourites' : 'Add To Favourites'}
+              {isFavorited ? "Remove from Favorites" : "Add To Favorites"}
             </button>
-            
-            <button className="add-to-board-btn">
-              Add To Board
-            </button>
-            
-            {/* Edit & Delete buttons for pin owner */}
+
+            <button className="add-to-board-btn">Add To Board</button>
+
             {currentUser?.id === pin.user_id && (
               <div className="owner-actions">
                 <Link to={`/pins/${pin.id}/edit`}>
-                <button className="edit-btn">Edit This Pin</button>
-             </Link>
+                  <button className="edit-btn">Edit This Pin</button>
+                </Link>
                 <button className="delete-btn" onClick={handleDelete}>
-              Delete This Pin
-            </button>
-            </div>
+                  Delete This Pin
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -121,14 +140,18 @@ export default function PinDetail() {
       <div className="comments-section">
         <h3>Comments:</h3>
         {comments.length === 0 ? (
-          <p>No comments yet. Be the first!</p>
+          <p className="no-comments">No comments yet. Be the first!</p>
         ) : (
           <div className="comments-list">
             {comments.map((comment) => (
               <div key={comment.id} className="comment-item">
                 <div className="comment-header">
-                  <span className="comment-author">{comment.user?.username || "Anonymous"}</span>
-                  <span className="comment-date">Date {new Date(comment.createdAt).toLocaleDateString()}</span>
+                  <span className="comment-author">
+                    {comment.user?.username || "Anonymous"}
+                  </span>
+                  <span className="comment-date">
+                    Date {new Date(comment.createdAt).toLocaleDateString()}
+                  </span>
                 </div>
                 <p className="comment-body">{comment.body}</p>
                 {currentUser?.id === comment.user_id && (
