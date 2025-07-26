@@ -31,7 +31,7 @@ const removeComment = (commentId) => ({
 // -------------------------------------
 // Thunk Actions (async) - MK
 export const fetchCommentsByPin = (pinId) => async (dispatch) => {
-  const res = await fetch(`/api/pins/${pinId}/comments`);
+  const res = await csrfFetch(`/api/comments/pins/${pinId}/comments`);
   if (res.ok) {
     const data = await res.json();
     dispatch(loadComments(data.comments));
