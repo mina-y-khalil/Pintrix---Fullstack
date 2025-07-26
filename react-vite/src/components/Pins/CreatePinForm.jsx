@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createPin } from "../../redux/pins";
-// import "./CreatePinForm.css"; 
+import "./CreatePinForm.css";
 
 export default function CreatePinForm() {
   const dispatch = useDispatch();

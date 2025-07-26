@@ -1,0 +1,58 @@
+.create-pin-form {
+  max-width: 500px;
+  margin: 100px auto; /* centers horizontally and adds top spacing */
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.create-pin-form h2 {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #111;
+}
+
+.create-pin-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+.create-pin-form input,
+.create-pin-form textarea {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-pin-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.create-pin-form button {
+  background-color: #e31c25;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-pin-form button:hover {
+  background-color: #c4121b;
+}
+
+.form-errors {
+  color: red;
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+}
