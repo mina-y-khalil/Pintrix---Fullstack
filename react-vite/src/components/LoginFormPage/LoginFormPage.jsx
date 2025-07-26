@@ -12,10 +12,8 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  // If user is already logged in, redirect to home
   if (sessionUser) return <Navigate to="/" replace={true} />;
 
-  // Handle form submission for login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,12 +31,11 @@ function LoginFormPage() {
     }
   };
 
-  // Handle demo user login
   const handleDemoLogin = async () => {
     const serverResponse = await dispatch(
       thunkLogin({
-        email: 'demo@aa.io', // Use your actual demo user email
-        password: 'password'
+        email: 'demo@aa.io',
+        password: 'password',
       })
     );
     if (serverResponse) {
@@ -53,42 +50,43 @@ function LoginFormPage() {
       <div className="login-form-wrapper">
         <h1>Log In</h1>
 
-        {Array.isArray(errors) && errors.length > 0 &&
-          errors.map((message) => <p key={message}>{message}</p>)}
+        <div className="form-inner">
+          <form onSubmit={handleSubmit}>
+            <label>
+              Email
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </label>
+            {errors.email && <p className="error-text">{errors.email}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </label>
-          {errors.email && <p>{errors.email}</p>}
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </label>
+            {errors.password && <p className="error-text">{errors.password}</p>}
 
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-          {errors.password && <p>{errors.password}</p>}
+            {errors.credential && <p className="error-text">{errors.credential}</p>}
 
-          <button type="submit">Log In</button>
+            <button type="submit" className="login-button">Log In</button>
 
-          <button
-            type="button"
-            className="demo-login-button"
-            onClick={handleDemoLogin}
-          >
-            Log in as Demo User
-          </button>
-        </form>
+            <button
+              type="button"
+              className="demo-login-button"
+              onClick={handleDemoLogin}
+            >
+              Log in as Demo User
+            </button>
+          </form>
+        </div>
       </div>
 
       <img

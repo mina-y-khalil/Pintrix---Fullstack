@@ -1,24 +1,36 @@
+.login-page-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 60px;
+  padding: 40px;
+  min-height: 100vh;
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.login-form-wrapper {
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center;
+  margin-right: auto; 
+}
+
+
+.form-inner {
+  width: 100%;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
   width: 100%;
-  max-width: 400px;
-  /* margin: 0 auto; */
-  padding: 100px 100px;
-  border-radius: 10px;
-  /* box-shadow: 0 0 12px rgba(0, 0, 0, 0.3); */
-
 }
-
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #444;
-  min-height: 100vh;
-  margin: 0;
-} */
 
 h1 {
   text-align: center;
@@ -62,7 +74,11 @@ button {
 }
 
 button:hover {
-  background-color: #cc001f;
+  background-color: #e60023;
+}
+
+.demo-login-button {
+  background-color: #000000;
 }
 
 p {
@@ -71,19 +87,9 @@ p {
   margin: 0;
 }
 
-
-.modal-wrapper-signin {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #ffffff;
-  padding: 20px;
-
-}
 .signin-image {
-  width: 300px;
-  /* margin: 10px 0 20px; */
-  /* border-radius: 8px; */
+  width: 600px;
+  max-width: 100%;
+  height: auto;
+  flex-shrink: 0;
 }
