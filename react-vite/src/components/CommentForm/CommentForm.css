@@ -1,13 +1,15 @@
 .comment-form-overlay {
-  background-color: rgba(0,0,0,0.7);
   position: fixed;
-  top: 0;
+  top: 100px;
   left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  right: 0;
+  margin: auto;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
 }
 
 .comment-form {
@@ -18,10 +20,11 @@
 }
 
 .comment-form textarea {
-  width: 100%;
+   width: 100%;
   height: 80px;
-  margin-bottom: 10px;
-  resize: none;
+  padding: 10px;
+  font-size: 14px;
+  resize: vertical;
 }
 
 .comment-form .error {
@@ -31,10 +34,13 @@
 }
 
 .comment-form button {
-  background-color: #ff5a5f;
+   margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #e91e24;
   color: white;
-  padding: 8px 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
 }

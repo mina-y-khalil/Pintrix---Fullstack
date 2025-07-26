@@ -50,7 +50,7 @@ def update_comment(id):
     return comment.to_dict()
 
 # Delete comment - MK
-@comment_routes.route('/comments/<int:id>', methods=['DELETE'])
+@comment_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_comment(id):
     comment = Comment.query.get(id)
