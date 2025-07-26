@@ -31,7 +31,7 @@ def create_comment(pin_id):
     return comment.to_dict(), 201
 
 # Update comment - MK
-@comment_routes.route('/comments/<int:id>', methods=['PUT'])
+@comment_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_comment(id):
     comment = Comment.query.get(id)

@@ -8,7 +8,7 @@ import './CommentList.css';
 
 const CommentList = ({ pinId, currentUserId }) => {
     const dispatch = useDispatch();
-    const commentsObj = useSelector(state => state.comments || {});
+    const commentsObj = useSelector((state) => state.comments || {});
     const comments = Object.values(commentsObj).filter(comment => comment.pin_id === pinId);
 
     useEffect(() => {
@@ -17,33 +17,52 @@ const CommentList = ({ pinId, currentUserId }) => {
 
     return (
         <div className="comment-list-container">
-            <OpenModalButton
-                buttonText="💬 Add Comment"
-                modalComponent={<CommentForm pinId={pinId} />}
-                className="add-comment-button"
-            />
+            {/* 💬 Add Comment Button (Modal Overlay) */}
+            {currentUserId && (
+                <OpenModalButton
+                    buttonText="💬 Add Comment"
+                    modalComponent={<CommentForm pinId={pinId} />}
+                    className="add-comment-button"
+                />
+            )}
+
             <h3 className="comments-title">Comments:</h3>
-            {comments.map(comment => (
-                <div key={comment.id} className="comment-item">
-                    <div className="comment-header">
-                        <span className="comment-user">{comment.username}</span>
-                        <span className="comment-date">{new Date(comment.created_at).toLocaleDateString()}</span>
-                        {currentUserId === comment.user_id && (
-                            <span className="comment-actions">
-                                <OpenModalButton
-                                    buttonText="Edit"
-                                    modalComponent={<CommentForm pinId={pinId} comment={comment} />}
-                                />
-                                <OpenModalButton
-                                    buttonText="Delete"
-                                    modalComponent={<DeleteConfirmationModal commentId={comment.id} pinId={pinId} />}
-                                />
-                            </span>
-                        )}
-                    </div>
-                    <div className="comment-text">{comment.text}</div>
-                </div>
-            ))}
+
+            {comments.length === 0 ? (
+                <p className="no-comments">No comments yet.</p>
+            ) : (
+                comments
+                    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                    .map((comment) => (
+                        <div key={comment.id} className="comment-item">
+                            <div className="comment-header">
+                                <span className="comment-user">{comment.username}</span>
+                                <span className="comment-date">
+                                    {new Date(comment.created_at).toLocaleDateString("en-US", {
+                                        month: "long",
+                                        year: "numeric"
+                                    })}
+                                </span>
+
+                                {currentUserId === comment.user_id && (
+                                    <div className="comment-actions">
+                                        <OpenModalButton
+                                            buttonText="Edit"
+                                            modalComponent={<CommentForm pinId={pinId} comment={comment} />}
+                                            className="edit-comment-button"
+                                        />
+                                        <OpenModalButton
+                                            buttonText="Delete"
+                                            modalComponent={<DeleteConfirmationModal commentId={comment.id} pinId={pinId} />}
+                                            className="delete-comment-button"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="comment-text">{comment.text}</div>
+                        </div>
+                    ))
+            )}
         </div>
     );
 };
