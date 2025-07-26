@@ -3,8 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useMemo } from "react";
 import { fetchPins, deletePin } from "../../redux/pins";
 import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
+import { fetchCommentsByPin } from "../../redux/comments";
 import "./PinsGrid.css";
 import "./PinDetail.css";
+import OpenModalButton from "../OpenModalButton";
+import CommentForm from "../CommentForm";
+import CommentList from "../CommentList";
 
 export default function PinDetail() {
   const { id } = useParams();
@@ -21,41 +25,25 @@ export default function PinDetail() {
 
   const currentUser = useSelector((state) => state?.session?.user);
 
-  // const isFavorited = useSelector((state) => !!state?.favorites?.[id]);
-  // Use the same approach as your teammate for favorites count
-  const favorites = useSelector(state => Object.values(state.favorites || {}));
-
-  
   const fullState = useSelector((state) => state);
   const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
   const favoritesArray = useMemo(() => Object.values(allFavorites), [allFavorites]);
-  
+
   const isFavorited = useMemo(() => {
     return favoritesArray.some(fav => fav.pin_id === Number(id));
   }, [favoritesArray, id]);
-  
+
   const favoritesCount = useMemo(() => {
     return favoritesArray.filter(fav => fav.pin_id === Number(id)).length;
   }, [favoritesArray, id]);
-  
-
-  const comments = useSelector((state) => {
-    const commentsState = state?.comments || {};
-    return Object.values(commentsState).filter(
-      (comment) => comment.pinId === Number(id)
-    );
-  });
 
   useEffect(() => {
     if (!pin) {
       dispatch(fetchPins());
     }
-
-    // Fetch favorites when component mounts
-
-
     dispatch(fetchFavorites());
-  }, [dispatch, pin]);
+    dispatch(fetchCommentsByPin(Number(id)));
+  }, [dispatch, pin, id]);
 
   const handleFavoriteClick = () => {
     if (isFavorited) {
@@ -75,35 +63,15 @@ export default function PinDetail() {
     }
   };
 
-  if (!pin) {
-    return <p>Loading...</p>;
-  }
+  if (!pin) return <p>Loading...</p>;
 
   return (
     <div className="pin-detail-container">
       <div className="pin-detail-content">
         {/* Left Column - Pin Information */}
         <div className="pin-info">
-
           <h1 className="pin-title">{pin.title}</h1>
           <p className="pin-owner">Pin owner: {pin.user?.username || "Unknown"}</p>
-          
-          <div className="pin-stats">
-            <span className="favorites-count">
-              <span className="heart-icon">♥</span> {favorites.length}
-            </span>
-          </div>
-          
-          <div className="pin-description">
-            <p>{pin.description}</p>
-          </div>
-          
-          <button className="add-comment-btn">
-            Add Comment
-          </button>
-
-          <div className="pin-title">{pin.title}</div>
-          <div className="pin-owner">Pin owner: Unknown</div>
 
           <div className="pin-stats">
             <span className="favorites-count">
@@ -112,14 +80,16 @@ export default function PinDetail() {
           </div>
 
           <div className="pin-description">
-            <div className="pin-description-text">{pin.description}</div>
+            <p>{pin.description}</p>
           </div>
 
-          {/* Only show comment button if user is NOT the pin owner */}
           {currentUser?.id !== pin.user_id && (
-            <button className="add-comment-btn">Add Comment</button>
+            <OpenModalButton
+              buttonText="💬 Add Comment"
+              modalComponent={<CommentForm pinId={Number(id)} />}
+              className="add-comment-btn"
+            />
           )}
-
         </div>
 
         {/* Right Column - Image and Actions */}
@@ -128,7 +98,6 @@ export default function PinDetail() {
             <img src={pin.image_url} alt={pin.title} />
             <button className="share-btn">↪</button>
           </div>
-
 
           <div className="action-buttons">
             <button
@@ -149,46 +118,13 @@ export default function PinDetail() {
                   Delete This Pin
                 </button>
               </div>
-
             )}
           </div>
         </div>
       </div>
 
       {/* Comments Section */}
-      <div className="comments-section">
-        <h3>Comments:</h3>
-        {comments.length === 0 ? (
-          <p className="no-comments">No comments yet. Be the first!</p>
-        ) : (
-          <div className="comments-list">
-            {comments.map((comment) => (
-              <div key={comment.id} className="comment-item">
-                <div className="comment-header">
-
-                  <span className="comment-author">{comment.user?.username || "Anonymous"}</span>
-                  <span className="comment-date">Date {new Date(comment.createdAt).toLocaleDateString()}</span>
-
-                  <span className="comment-author">
-                    {comment.user?.username || "Anonymous"}
-                  </span>
-                  <span className="comment-date">
-                    Date {new Date(comment.createdAt).toLocaleDateString()}
-                  </span>
-
-                </div>
-                <p className="comment-body">{comment.body}</p>
-                {currentUser?.id === comment.user_id && (
-                  <div className="comment-actions">
-                    <button className="edit-comment">Edit</button>
-                    <button className="delete-comment">Delete</button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      <CommentList pinId={Number(id)} currentUserId={currentUser?.id} />
     </div>
   );
 }

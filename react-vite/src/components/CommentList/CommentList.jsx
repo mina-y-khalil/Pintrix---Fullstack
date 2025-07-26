@@ -8,11 +8,11 @@ import './CommentList.css';
 
 const CommentList = ({ pinId, currentUserId }) => {
     const dispatch = useDispatch();
-    const commentsObj = useSelector(state => state.comments);
+    const commentsObj = useSelector(state => state.comments || {});
     const comments = Object.values(commentsObj).filter(comment => comment.pin_id === pinId);
 
     useEffect(() => {
-        dispatch(fetchCommentsByPin(pinId));
+        if (pinId) dispatch(fetchCommentsByPin(pinId));
     }, [dispatch, pinId]);
 
     return (

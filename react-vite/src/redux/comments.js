@@ -39,7 +39,7 @@ export const fetchCommentsByPin = (pinId) => async (dispatch) => {
 };
 
 export const createComment = (pinId, text) => async (dispatch) => {
-  const res = await csrfFetch(`/api/pins/${pinId}/comments`, {
+  const res = await csrfFetch(`/api/comments/pins/${pinId}/comments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createComment, updateComment } from '../../redux/comments';
+import { createComment, editComment } from '../../redux/comments';
 import { useModal } from '../../context/Modal';
 
 const CommentForm = ({ pinId, comment }) => {
@@ -17,7 +17,7 @@ const CommentForm = ({ pinId, comment }) => {
         }
 
         if (comment) {
-            await dispatch(updateComment(comment.id, text));
+            await dispatch(editComment(comment.id, text));
         } else {
             await dispatch(createComment(pinId, text));
         }
