@@ -1,10 +1,10 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchPins, deletePin } from "../../redux/pins";
 import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
 import { fetchCommentsByPin } from "../../redux/comments";
-import "./PinsGrid.css";
+import { thunkFetchBoards, thunkAddPinToBoard, thunkCreateBoard } from "../../redux/boards";
 import "./PinDetail.css";
 import OpenModalButton from "../OpenModalButton";
 import CommentForm from "../CommentForm";
@@ -14,6 +14,9 @@ export default function PinDetail() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [newBoardName, setNewBoardName] = useState("");
+  const [creatingBoard, setCreatingBoard] = useState(false);
 
   const pins = useSelector((state) => state?.pins || {});
   let pin = null;
@@ -24,6 +27,10 @@ export default function PinDetail() {
   }
 
   const currentUser = useSelector((state) => state?.session?.user);
+
+  const boards = useSelector(state => state.boards.entries);
+  const userBoards = Object.values(boards).filter(board => board.user_id === currentUser?.id);
+
 
   const fullState = useSelector((state) => state);
   const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
@@ -38,11 +45,10 @@ export default function PinDetail() {
   }, [favoritesArray, id]);
 
   useEffect(() => {
-    if (!pin) {
-      dispatch(fetchPins());
-    }
+    if (!pin)dispatch(fetchPins());
     dispatch(fetchFavorites());
     dispatch(fetchCommentsByPin(Number(id)));
+    dispatch(thunkFetchBoards());
   }, [dispatch, pin, id]);
 
   const handleFavoriteClick = () => {
@@ -62,6 +68,24 @@ export default function PinDetail() {
       navigate("/pins");
     }
   };
+
+  const handleAddToBoard = async (boardId) => {
+  await dispatch(thunkAddPinToBoard(boardId, pin.id));
+  setShowDropdown(false);
+  navigate(`/boards/${boardId}`);
+};
+
+const handleCreateBoard = async () => {
+  if (!newBoardName.trim()) return;
+  const board = await dispatch(thunkCreateBoard(newBoardName));
+  if (board?.id) {
+    await dispatch(thunkAddPinToBoard(board.id, pin.id));
+    setNewBoardName("");
+    setCreatingBoard(false);
+    setShowDropdown(false);
+    navigate(`/boards/${board.id}`);
+  }
+};
 
   if (!pin) return <p>Loading...</p>;
 
@@ -107,7 +131,43 @@ export default function PinDetail() {
               {isFavorited ? "Remove from Favorites" : "Add To Favorites"}
             </button>
 
-            <button className="add-to-board-btn">Add To Board</button>
+{/* ADD TO BOARD */}
+            <div className="add-to-board-wrapper">
+  <button
+    className="add-to-board-btn"
+    onClick={() => setShowDropdown(prev => !prev)}
+  >
+    Add To Board
+  </button>
+
+  {showDropdown && (
+    <div className="board-dropdown">
+      <ul>
+        {userBoards.map(board => (
+          <li key={board.id}>
+            <button onClick={() => handleAddToBoard(board.id)}>
+              {board.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {!creatingBoard ? (
+        <button onClick={() => setCreatingBoard(true)}>+ Create New Board</button>
+      ) : (
+        <div className="new-board-form">
+          <input
+            value={newBoardName}
+            onChange={(e) => setNewBoardName(e.target.value)}
+            placeholder="New board name"
+          />
+          <button onClick={handleCreateBoard}>Create</button>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+{ /* END ADD TO BOARD */}
 
             {currentUser?.id === pin.user_id && (
               <div className="owner-actions">
