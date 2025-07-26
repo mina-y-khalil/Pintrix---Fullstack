@@ -21,7 +21,6 @@ import BoardsList from '../components/BoardsList';
 import BoardDetail from '../components/BoardDetail';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
 import BoardCreateForm from '../components/BoardCreateForm';
-import CreatePinForm from "../components/Pins/CreatePinForm";
 
 
 
@@ -52,8 +51,8 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-        path: "favorites",          
-        element: <FavoritesList />, 
+        path: "favorites",
+        element: <FavoritesList />,
       },
       {
 
