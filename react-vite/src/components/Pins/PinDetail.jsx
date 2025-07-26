@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useMemo } from "react";
 import { fetchPins, deletePin } from "../../redux/pins";
 import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
+import { fetchCommentsByPin, deleteComment } from "../../redux/comments";
 import "./PinsGrid.css";
 import "./PinDetail.css";
+import { CommentForm } from "../CommentForm/CommentForm"
 
 export default function PinDetail() {
   const { id } = useParams();
@@ -20,6 +22,7 @@ export default function PinDetail() {
   }
 
   const currentUser = useSelector((state) => state?.session?.user);
+  const comments = useSelector((state) => Object.values(state?.comments || {}));
   
   const fullState = useSelector((state) => state);
   const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
@@ -32,20 +35,14 @@ export default function PinDetail() {
   const favoritesCount = useMemo(() => {
     return favoritesArray.filter(fav => fav.pin_id === Number(id)).length;
   }, [favoritesArray, id]);
-  
-  const comments = useSelector((state) => {
-    const commentsState = state?.comments || {};
-    return Object.values(commentsState).filter(
-      (comment) => comment.pinId === Number(id)
-    );
-  });
 
   useEffect(() => {
     if (!pin) {
       dispatch(fetchPins());
     }
     dispatch(fetchFavorites());
-  }, [dispatch, pin]);
+    dispatch(fetchCommentsByPin(id));
+  }, [dispatch, pin, id]);
 
   const handleFavoriteClick = () => {
     if (isFavorited) {
@@ -86,11 +83,6 @@ export default function PinDetail() {
           <div className="pin-description">
             <div className="pin-description-text">{pin.description}</div>
           </div>
-
-          {/* Only show comment button if user is NOT the pin owner */}
-          {currentUser?.id !== pin.user_id && (
-            <button className="add-comment-btn">Add Comment</button>
-          )}
         </div>
 
         {/* Right Column - Image and Actions */}
@@ -138,20 +130,26 @@ export default function PinDetail() {
                     {comment.user?.username || "Anonymous"}
                   </span>
                   <span className="comment-date">
-                    Date {new Date(comment.createdAt).toLocaleDateString()}
+                    {new Date(comment.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <p className="comment-body">{comment.body}</p>
                 {currentUser?.id === comment.user_id && (
                   <div className="comment-actions">
                     <button className="edit-comment">Edit</button>
-                    <button className="delete-comment">Delete</button>
+                    <button 
+                      className="delete-comment" 
+                      onClick={() => dispatch(deleteComment(comment.id))}
+                    >
+                      Delete
+                    </button>
                   </div>
                 )}
               </div>
             ))}
           </div>
         )}
+        <CommentForm pinId={id} />
       </div>
     </div>
   );
