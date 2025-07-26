@@ -1,0 +1,42 @@
+.favColumn {
+    flex: 0 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.favContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.favColumn > div > img {
+    object-fit: cover;
+    width: 100%;
+    height: 40vh;
+}
+
+.favText {
+    color: #e60023;
+}
+
+.favTitle {
+  float: left;
+}
+
+.favLikes {
+  float: right;
+}
+
+.h1{
+    font-family:Helvetica Neue, Helvetica, sans-serif;
+}
+

@@ -1,0 +1,10 @@
+.form-buttons {
+  display: flex;
+  gap: 10px; /* adds space between buttons */
+  margin-top: 1rem; /* optional: adds some space above buttons */
+}
+
+.form-buttons button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}

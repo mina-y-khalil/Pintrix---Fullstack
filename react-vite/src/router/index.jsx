@@ -7,11 +7,23 @@ import SignupFormPage from '../components/SignupFormPage';
 //Layout wrapper
 import Layout from './Layout';
 
+import FavoritesList from "../components/FavoritesList/FavoritesList";
+
+
 //Pin-related components
+
 import PinsGrid from '../components/Pins/PinsGrid';
 import CreatePinForm from '../components/Pins/CreatePinForm';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
+
+import BoardsList from '../components/BoardsList';
+import BoardDetail from '../components/BoardDetail';
+import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
+import BoardCreateForm from '../components/BoardCreateForm';
+import CreatePinForm from "../components/Pins/CreatePinForm";
+
+
 
 //Favorites
 import FavoritesList from '../components/Favorites/FavoritesList';
@@ -22,6 +34,7 @@ import BoardDetail from '../components/BoardDetail';
 import ManageBoards from '../components/ManageBoards/ManageBoards';
 import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
+
 
 //Route config
 export const router = createBrowserRouter([
@@ -39,13 +52,28 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
+        path: "favorites",          
+        element: <FavoritesList />, 
+      },
+      {
+
+
         path: "signup",
         element: <SignupFormPage />,
       },
       //User favorites
       {
+
+        path: "boards/create",
+        element: <BoardCreateForm />,
+      },
+      {
+        path: "boards",
+        element: <BoardsList />,
+
         path: "favorites",
         element: <FavoritesList />,
+
       },
       // Board routes
       {
@@ -53,6 +81,8 @@ export const router = createBrowserRouter([
         element: <BoardsList />,
       },
       {
+
+
         path: "boards/create",
         element: <BoardCreateModal />,
       },
@@ -65,6 +95,7 @@ export const router = createBrowserRouter([
         element: <BoardDetail />,
       },
       {
+
         path: "boards/:boardId/manage-pins",
         element: <ManagePinsInBoard />,
       },

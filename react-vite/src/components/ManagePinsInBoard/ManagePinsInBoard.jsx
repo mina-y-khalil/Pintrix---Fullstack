@@ -27,12 +27,12 @@ const ManagePinsInBoard = () => {
 
   return (
     <div className="manage-pins-page">
-      <h1>Manage Pins in &quot;{board.name}&quot;</h1>
+      <h1>Manage {board.name} Pins</h1>
       {board.pins && board.pins.length ? (
         <div className="pins-grid">
           {board.pins.map((pin) => (
             <div key={pin.id} className="pin-card">
-              <img src={pin.imageUrl} alt={pin.title} className="pin-img" />
+              <img src={pin.image_url} alt={pin.title} className="pin-img" />
               <div className="pin-info">
                 <span>{pin.title}</span>
                 <button
