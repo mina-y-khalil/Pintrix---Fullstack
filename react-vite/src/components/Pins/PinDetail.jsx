@@ -22,8 +22,13 @@ export default function PinDetail() {
   }
 
   const currentUser = useSelector((state) => state?.session?.user);
-  const comments = useSelector((state) => Object.values(state?.comments || {}));
-  
+  const comments = useSelector((state) => {
+    const commentsState = state?.comments || {};
+    return Object.values(commentsState).filter(
+      (comment) => comment.pinId === Number(id)
+    );
+  });
+
   const fullState = useSelector((state) => state);
   const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
   const favoritesArray = useMemo(() => Object.values(allFavorites), [allFavorites]);
@@ -71,17 +76,17 @@ export default function PinDetail() {
       <div className="pin-detail-content">
         {/* Left Column - Pin Information */}
         <div className="pin-info">
-          <div className="pin-title">{pin.title}</div>
-          <div className="pin-owner">Pin owner: Unknown</div>
-
+          <h1 className="pin-title">{pin.title}</h1>
+          <p className="pin-owner">Pin owner: {pin.user?.username || "Unknown"}</p>
+          
           <div className="pin-stats">
             <span className="favorites-count">
               <span className="heart-icon">♥</span> {favoritesCount}
             </span>
           </div>
-
+          
           <div className="pin-description">
-            <div className="pin-description-text">{pin.description}</div>
+            <p>{pin.description}</p>
           </div>
         </div>
 
@@ -93,15 +98,18 @@ export default function PinDetail() {
           </div>
 
           <div className="action-buttons">
-            <button
-              className={`favorite-btn ${isFavorited ? "favorited" : ""}`}
+            <button 
+              className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
               onClick={handleFavoriteClick}
             >
-              {isFavorited ? "Remove from Favorites" : "Add To Favorites"}
+              {isFavorited ? 'Remove from Favourites' : 'Add To Favourites'}
             </button>
-
-            <button className="add-to-board-btn">Add To Board</button>
-
+            
+            <button className="add-to-board-btn">
+              Add To Board
+            </button>
+            
+            {/* Edit & Delete buttons for pin owner */}
             {currentUser?.id === pin.user_id && (
               <div className="owner-actions">
                 <Link to={`/pins/${pin.id}/edit`}>

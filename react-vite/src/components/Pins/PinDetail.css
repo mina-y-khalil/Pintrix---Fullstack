@@ -1,3 +1,51 @@
+
+.pin-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+}
+
+.pin-detail-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Left Column - Pin Information */
+.pin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pin-title {
+  font-size: 60px;
+  font-weight: bold;
+  color: #000;
+  margin: 0px;
+}
+
+.pin-owner {
+  font-size: 20px;
+  color: black;
+  margin: 0px ;
+}
+
+.pin-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.favorites-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  color: #000;
+
 /* Pins Grid Styles */
 .pins-grid {
   display: grid;
@@ -157,10 +205,20 @@
   font-size: 22px;
   color: black;
   font-weight: 500;
+
 }
 
 .heart-icon {
   color: #e60023;
+
+  font-size: 30px;
+}
+
+.pin-description {
+  line-height: 8;
+  color: black;
+  font-size: 40px;
+
   font-size: 24px;
 }
 
@@ -175,6 +233,7 @@
   color: #333;
   margin: 0;
   padding: 0;
+
 }
 
 .add-comment-btn {
@@ -258,10 +317,13 @@
   background-color: #650610;
 }
 
+
+
 .favorite-button.favorited {
   color: #e60023;
   text-shadow: none; 
 }
+
 
 .favorite-btn.favorited {
   background-color: #666;
@@ -271,7 +333,11 @@
   background-color: #ffb246;
   color: black;
   border: none;
+
+  padding: 10px 20px;;
+
   padding: 10px 20px;
+
   border-radius: 8px;
   cursor: pointer;
   font-size: 20px;
@@ -287,6 +353,9 @@
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
+
+
+
 }
 
 .edit-btn {
@@ -354,6 +423,7 @@
 .comment-author {
   color: black;
   font-weight: bold;
+
 }
 
 .comment-date {
@@ -382,6 +452,36 @@
   text-decoration: underline;
 }
 
+
+}
+
+.comment-date {
+  color: #666;
+  font-size: 10px;
+}
+
+.comment-body {
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.edit-comment {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+
 .delete-comment {
   background: none;
   border: none;
@@ -390,6 +490,7 @@
   font-size: 0.9rem;
   text-decoration: underline;
 }
+
 
 .no-comments {
   color: black;

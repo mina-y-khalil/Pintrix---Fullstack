@@ -9,15 +9,14 @@ import sessionReducer from "./session";
 import commentsReducer from "./comments";
 import boardsReducer from "./boards";
 import pinsReducer from "./pins";
-import favoritesReducer from "./favorites"; // ADD THIS IMPORT
-
+import favoritesReducer from "./favorites";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   comments: commentsReducer,
   boards: boardsReducer,
   pins: pinsReducer,
-  favorites: favoritesReducer, // ADD THIS LINE
+  favorites: favoritesReducer,
 });
 
 let enhancer;
@@ -35,3 +34,5 @@ const configureStore = (preloadedState) => {
 };
 
 export default configureStore;
+
+

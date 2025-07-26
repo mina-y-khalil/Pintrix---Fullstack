@@ -42,7 +42,7 @@
 }
 
 .nav-btn:hover {
-  background: #c2001d;
+  background: #e60023;
 }
 
 .black-btn {
@@ -70,6 +70,6 @@
 
 .heart {
   color: #e60023;
-  font-size: 50px;
+  font-size: 30px;
   transition: transform 0.2s, color 0.2s;
 }

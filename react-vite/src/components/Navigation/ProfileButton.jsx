@@ -58,22 +58,6 @@ function ProfileButton() {
               <div>{user.email}</div>
             </li>
             <hr />
-            <li className='dropdown-manage'>
-              <button onClick={() => { navigate('/pins/manage'); closeMenu(); }}>
-                Manage Pins
-              </button>
-            </li>
-            <li className='dropdown-manage'>
-              <button onClick={() => { navigate('/boards/manage'); closeMenu(); }}>
-                Manage Boards
-              </button>
-            </li>
-            <li className='dropdown-manage'>
-              <button onClick={() => { navigate('/favorites/manage'); closeMenu(); }}>
-                Manage Favorites
-              </button>
-            </li>
-            <hr />
             <li className='dropdown-logout'>
               <button onClick={logout}>Log Out</button>
             </li>
