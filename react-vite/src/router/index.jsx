@@ -52,7 +52,6 @@ export const router = createBrowserRouter([
         element: <LoginFormPage />,
       },
       {
-
         path: "favorites",          
         element: <FavoritesList />, 
       },
