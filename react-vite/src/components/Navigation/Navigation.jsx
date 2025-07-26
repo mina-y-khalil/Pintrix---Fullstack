@@ -24,6 +24,9 @@ function Navigation() {
 
       {/* Center: Nav Links */}
       <div className="nav-links">
+        {user && (
+          <>
+        
         <NavLink to="/favorites" className="heart-btn">
           <span className="heart">♥️</span>
         </NavLink>
@@ -33,19 +36,16 @@ function Navigation() {
         <NavLink to="/boards" className="nav-btn">
           Boards
         </NavLink>
-
-        {/* Show only if logged in */}
-        {user && (
-          <>
-            <NavLink to="/pins/new" className="nav-btn">
+        <NavLink to="/pins/new" className="nav-btn">
               Add New Pin
-            </NavLink>
-           <NavLink to="/boards/create" className="nav-btn">
+        </NavLink>
+        <NavLink to="/boards/create" className="nav-btn">
               Add New Board
-            </NavLink>
-          </>
+        </NavLink>
+        </>
         )}
-      </div>
+        </div>
+
 
       {/* Right: Profile/Login */}
       <div className="nav-profile">

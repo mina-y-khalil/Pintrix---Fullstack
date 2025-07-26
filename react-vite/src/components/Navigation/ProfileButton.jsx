@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../redux/session';
-import OpenModalMenuItem from './OpenModalMenuItem';
-import LoginFormModal from '../LoginFormModal';
-import SignupFormModal from '../SignupFormModal';
 import { useNavigate } from 'react-router-dom';
 import './ProfileButton.css';
 
@@ -65,22 +62,28 @@ function ProfileButton() {
         ) : (
           <>
             <li className='dropdown-login-signup'>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
+              <button
+        onClick={() => {
+          closeMenu();
+          navigate('/login'); 
+        }}
+      >
+        Log In
+      </button>
             </li>
             <li className='dropdown-login-signup'>
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
+            <button
+        onClick={() => {
+          closeMenu();
+          navigate('/signup');  
+        }}
+      >
+        Sign Up
+      </button>
             </li>
           </>
         )}
-      </ul>
+        </ul>
     </div>
   );
 }

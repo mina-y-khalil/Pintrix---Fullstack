@@ -13,15 +13,25 @@ const removeUser = () => ({
 });
 
 export const thunkAuthenticate = () => async (dispatch) => {
+  try {
 	const response = await csrfFetch("/api/auth/");
 	if (response.ok) {
 		const data = await response.json();
 		if (data.errors) {
+      dispatch(removeUser());
 			return;
 		}
-
 		dispatch(setUser(data));
-	}
+	} else if (response.status === 401) {
+    dispatch(removeUser());
+  } else {
+    console.error("Auth error status:", response.status);
+    dispatch(removeUser());
+    }
+  } catch (error) {
+    console.error("Error in thunkAuthenticate:", error);
+    dispatch(removeUser());
+  }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
