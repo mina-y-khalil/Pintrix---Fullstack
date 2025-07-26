@@ -6,8 +6,8 @@ import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favo
 import { fetchCommentsByPin } from "../../redux/comments";
 import "./PinsGrid.css";
 import "./PinDetail.css";
-import OpenModalButton from "../OpenModalButton";
-import CommentForm from "../CommentForm";
+// import OpenModalButton from "../OpenModalButton";
+// import CommentForm from "../CommentForm";
 import CommentList from "../CommentList";
 
 export default function PinDetail() {
@@ -83,13 +83,13 @@ export default function PinDetail() {
             <p>{pin.description}</p>
           </div>
 
-          {currentUser?.id !== pin.user_id && (
+          {/* {currentUser?.id !== pin.user_id && (
             <OpenModalButton
               buttonText="💬 Add Comment"
               modalComponent={<CommentForm pinId={Number(id)} />}
               className="add-comment-btn"
             />
-          )}
+          )} */}
         </div>
 
         {/* Right Column - Image and Actions */}
