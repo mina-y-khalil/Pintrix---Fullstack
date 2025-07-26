@@ -9,10 +9,7 @@ import sessionReducer from "./session";
 import commentsReducer from "./comments";
 import boardsReducer from "./boards";
 import pinsReducer from "./pins";
-
-import favReducer from "./favorites";
-
-import favoritesReducer from "./favorites"; // ADD THIS IMPORT
+import favoritesReducer from "./favorites"; 
 
 
 
@@ -21,10 +18,7 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   boards: boardsReducer,
   pins: pinsReducer,
-
-  favorites: favReducer
-
-  favorites: favoritesReducer, // ADD THIS LINE
+  favorites: favoritesReducer, 
 
 });
 

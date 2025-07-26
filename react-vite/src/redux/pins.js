@@ -1,3 +1,5 @@
+import { csrfFetch } from "../csrf";
+
 // ACTION TYPES
 const LOAD_PINS = 'pins/LOAD_PINS';
 const CREATE_PIN = 'pins/CREATE_PIN';
@@ -37,12 +39,7 @@ export const removePin = (id) => ({
 //   pinId,
 // });
 
-// Helper to read CSRF cookie
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-}
+
 
 // THUNK: Fetch all pins
 export const fetchPins = () => async (dispatch) => {
@@ -57,12 +54,9 @@ export const fetchPins = () => async (dispatch) => {
 
 // THUNK: Create a new pin
 export const createPin = (data) => async (dispatch) => {
-  const res = await fetch('/api/pins/', {
+  const res = await csrfFetch('/api/pins/', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrf_token'),
-    },
+    headers: {'Content-Type': 'application/json'},
     credentials: 'include',
     body: JSON.stringify(data),
   });
@@ -78,11 +72,10 @@ export const createPin = (data) => async (dispatch) => {
 
 // THUNK: Edit an existing pin
 export const editPin = (id, data) => async (dispatch) => {
-  const res = await fetch(`/api/pins/${id}`, {
+  const res = await csrfFetch(`/api/pins/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'X-CSRFToken': getCookie('csrf_token'),
     },
     credentials: 'include',
     body: JSON.stringify(data),
@@ -99,11 +92,8 @@ export const editPin = (id, data) => async (dispatch) => {
 
 // THUNK: Delete an existing pin
 export const deletePin = (id) => async (dispatch) => {
-  const res = await fetch(`/api/pins/${id}`, {
+  const res = await csrfFetch(`/api/pins/${id}`, {
     method: 'DELETE',
-    headers: {
-      'X-CSRFToken': getCookie('csrf_token'),
-    },
     credentials: 'include',
   });
 

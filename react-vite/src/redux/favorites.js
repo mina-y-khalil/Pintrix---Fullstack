@@ -1,3 +1,5 @@
+import { csrfFetch } from "../csrf";
+
 // Action Types
 const LOAD_FAVORITES = 'favorites/LOAD';
 const ADD_FAVORITE = 'favorites/ADD';
@@ -35,7 +37,7 @@ export const fetchFavorites = () => async (dispatch) => {
 
 // POST /api/favorites/
 export const createFavorite = (pin_id) => async (dispatch) => {
-  const res = await fetch('/api/favorites/', {
+  const res = await csrfFetch('/api/favorites/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ pin_id }),
@@ -59,7 +61,7 @@ export const createFavorite = (pin_id) => async (dispatch) => {
 
 // DELETE /api/favorites/:id
 export const deleteFavorite = (id) => async (dispatch) => {
-  const res = await fetch(`/api/favorites/${id}`, {
+  const res = await csrfFetch(`/api/favorites/${id}`, {
     method: 'DELETE',
     credentials: 'include'
   });
@@ -83,12 +85,22 @@ const favoritesReducer = (state = initialState, action) => {
     }
 
     case ADD_FAVORITE:
-      return { ...state, [action.fav.id]: action.fav };
+      return { 
+        ...state, 
+        entries: { 
+          ...state.entries, 
+          [action.fav.id]: action.fav 
+        } 
+      }; 
+    
 
     case REMOVE_FAVORITE: {
-      const newState = { ...state };
-      delete newState[action.id];
-      return newState;
+      const newEntries = { ...state.entries };
+      delete newEntries[action.id];
+      return { 
+        ...state, 
+        entries: newEntries
+      };
     }
 
     default:

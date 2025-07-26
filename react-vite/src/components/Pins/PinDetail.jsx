@@ -21,7 +21,7 @@ export default function PinDetail() {
 
   const currentUser = useSelector((state) => state?.session?.user);
 
-  const isFavorited = useSelector((state) => !!state?.favorites?.[id]);
+  // const isFavorited = useSelector((state) => !!state?.favorites?.[id]);
   // Use the same approach as your teammate for favorites count
   const favorites = useSelector(state => Object.values(state.favorites || {}));
 
@@ -128,30 +128,6 @@ export default function PinDetail() {
             <img src={pin.image_url} alt={pin.title} />
             <button className="share-btn">↪</button>
           </div>
-
-          
-          <div className="action-buttons">
-            <button 
-              className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
-              onClick={handleFavoriteClick}
-            >
-              {isFavorited ? 'Remove from Favourites' : 'Add To Favourites'}
-            </button>
-            
-            <button className="add-to-board-btn">
-              Add To Board
-            </button>
-            
-            {/* Edit & Delete buttons for pin owner */}
-            {currentUser?.id === pin.user_id && (
-              <div className="owner-actions">
-                <Link to={`/pins/${pin.id}/edit`}>
-                <button className="edit-btn">Edit This Pin</button>
-             </Link>
-                <button className="delete-btn" onClick={handleDelete}>
-              Delete This Pin
-            </button>
-            </div>
 
 
           <div className="action-buttons">

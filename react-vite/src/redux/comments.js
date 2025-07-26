@@ -1,3 +1,5 @@
+import { csrfFetch } from "../csrf";
+
 // Action Types - MK
 const LOAD_COMMENTS = "comments/LOAD_COMMENTS";
 const ADD_COMMENT = "comments/ADD_COMMENT";
@@ -37,7 +39,7 @@ export const fetchCommentsByPin = (pinId) => async (dispatch) => {
 };
 
 export const createComment = (pinId, text) => async (dispatch) => {
-  const res = await fetch(`/api/pins/${pinId}/comments`, {
+  const res = await csrfFetch(`/api/pins/${pinId}/comments`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
@@ -51,7 +53,7 @@ export const createComment = (pinId, text) => async (dispatch) => {
 };
 
 export const editComment = (commentId, text) => async (dispatch) => {
-  const res = await fetch(`/api/comments/${commentId}`, {
+  const res = await csrfFetch(`/api/comments/${commentId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
@@ -65,7 +67,7 @@ export const editComment = (commentId, text) => async (dispatch) => {
 };
 
 export const deleteComment = (commentId) => async (dispatch) => {
-  const res = await fetch(`/api/comments/${commentId}`, {
+  const res = await csrfFetch(`/api/comments/${commentId}`, {
     method: "DELETE",
   });
 
