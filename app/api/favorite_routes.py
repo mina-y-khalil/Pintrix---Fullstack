@@ -21,8 +21,8 @@ def view_favorites():
         pins.append({'id':id, 'image_url':url, 'title':title, 'likes_count':likes})
     return {'pins':pins}
 
-        favorites = Favorite.query.filter_by(user_id=current_user.id).all()
-        return {'favs': [fav.to_dict() for fav in favorites]}
+    favorites = Favorite.query.filter_by(user_id=current_user.id).all()
+    return {'favs': [fav.to_dict() for fav in favorites]}
 
 
 
