@@ -22,17 +22,39 @@ def get_pin_by_id(id):
 @pin_routes.route('/', methods=['POST'])
 @login_required
 def create_pin():
-    data = request.get_json()
-    new_pin = Pin(
-        user_id=current_user.id,
-        title=data.get('title'),
-        image_url=data.get('image_url'),
-        description=data.get('description')
-        # likes_count is not set by user, defaults to 0
-    )
-    db.session.add(new_pin)
-    db.session.commit()
-    return new_pin.to_dict(), 201
+    try:
+        data = request.get_json()
+        
+        # Validate required fields
+        if not data:
+            return {'errors': 'No data provided'}, 400
+        
+        # Handle both camelCase and snake_case field names
+        title = data.get('title')
+        image_url = data.get('image_url') or data.get('imageUrl')  # Handle both formats
+        description = data.get('description')
+        
+        if not title:
+            return {'errors': 'title is required'}, 400
+        if not image_url:
+            return {'errors': 'image_url is required'}, 400
+        
+        new_pin = Pin(
+            user_id=current_user.id,
+            title=title,
+            image_url=image_url,
+            description=description
+        )
+        
+        db.session.add(new_pin)
+        db.session.commit()
+        
+        return new_pin.to_dict(), 201
+        
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error creating pin: {str(e)}")  # For debugging
+        return {'errors': 'Failed to create pin'}, 500
 
 # Only the owner can update their pin
 @pin_routes.route('/<int:id>', methods=['PUT'])

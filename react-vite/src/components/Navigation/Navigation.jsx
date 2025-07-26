@@ -1,14 +1,12 @@
+// Navigation.jsx
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import { useState } from "react";
-import BoardCreateModal from "../BoardCreateModal";
+
 import "./Navigation.css";
 
-
 function Navigation() {
-
-  const [showModal, setShowModal] = useState(false);
+  
   const user = useSelector((state) => state.session.user);
 
   return (
@@ -42,12 +40,9 @@ function Navigation() {
             <NavLink to="/pins/new" className="nav-btn">
               Add New Pin
             </NavLink>
-            <button
-              className="nav-btn"
-              onClick={() => setShowModal(true)}
-            >
+           <NavLink to="/boards/create" className="nav-btn">
               Add New Board
-            </button>
+            </NavLink>
           </>
         )}
       </div>
@@ -56,9 +51,8 @@ function Navigation() {
       <div className="nav-profile">
         <ProfileButton />
       </div>
-      {showModal && (
-        <BoardCreateModal onClose={() => setShowModal(false)} />
-      )}
+
+
     </nav>
   );
 }

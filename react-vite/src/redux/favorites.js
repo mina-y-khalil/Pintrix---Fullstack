@@ -6,7 +6,7 @@ const REMOVE_FAVORITE = 'favorites/REMOVE';
 // Action Creators
 const loadFavorites = (favs) => ({
   type: LOAD_FAVORITES,
-  favs
+  payload: favs,
 });
 
 const addFavorite = (fav) => ({
@@ -23,10 +23,13 @@ const removeFavorite = (id) => ({
 
 // GET /api/favorites/
 export const fetchFavorites = () => async (dispatch) => {
-  const res = await fetch('/api/favorites/');
+  const res = await fetch('/api/favorites/', {
+    method: 'GET',
+    credentials: 'include', 
+  });
   if (res.ok) {
     const data = await res.json();
-    dispatch(loadFavorites(data.favs));
+    dispatch(loadFavorites(data.pins));
   }
 };
 
@@ -35,19 +38,30 @@ export const createFavorite = (pin_id) => async (dispatch) => {
   const res = await fetch('/api/favorites/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin_id })
+    body: JSON.stringify({ pin_id }),
+    credentials: 'include'
   });
 
   if (res.ok) {
-    const fav = await res.json();
-    dispatch(addFavorite(fav));
+    const data = await res.json();
+    
+    // FIXED: Check if it's already favorited
+    if (data.message === 'Already favorited') {
+      // Don't dispatch anything - just return
+      console.log('Pin already favorited');
+      return;
+    }
+    
+    // Only dispatch if it's a new favorite
+    dispatch(addFavorite(data));
   }
 };
 
 // DELETE /api/favorites/:id
 export const deleteFavorite = (id) => async (dispatch) => {
   const res = await fetch(`/api/favorites/${id}`, {
-    method: 'DELETE'
+    method: 'DELETE',
+    credentials: 'include'
   });
 
   if (res.ok) {
@@ -55,15 +69,17 @@ export const deleteFavorite = (id) => async (dispatch) => {
   }
 };
 
+const initialState = { entries: {}};
+
 // Reducer
-const favoritesReducer = (state = {}, action) => {
+const favoritesReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_FAVORITES: {
-      const favState = {};
-      action.favs.forEach(fav => {
-        favState[fav.id] = fav;
+      const newEntries = {};
+      action.payload.forEach((fav) => {
+        newEntries[fav.id] = fav;
       });
-      return favState;
+      return { ...state, entries: newEntries };
     }
 
     case ADD_FAVORITE:
