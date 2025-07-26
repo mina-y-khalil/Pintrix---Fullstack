@@ -88,8 +88,15 @@ p {
 }
 
 .signin-image {
+<<<<<<< HEAD
   width: 600px;
   max-width: 100%;
   height: auto;
   flex-shrink: 0;
 }
+=======
+  width: 300px;
+  /* margin: 10px 0 20px; */
+  /* border-radius: 8px; */
+}
+>>>>>>> 31cad72 (Refactor comment delete modal)

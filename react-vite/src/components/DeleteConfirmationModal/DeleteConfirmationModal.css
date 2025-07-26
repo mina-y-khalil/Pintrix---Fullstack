@@ -1,32 +1,63 @@
-.delete-modal-container {
-  background-color: #f8b6b6;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.delete-modal-buttons {
+/* Full-screen overlay */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* subtle dark overlay */
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
+  align-items: center;
+  z-index: 1000;
 }
 
-.yes-button {
-  background-color: green;
-  color: white;
-  padding: 8px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+/* Modal box */
+.delete-modal-content {
+  background-color: #f8b6b6; /* soft pink */
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  width: 320px;
 }
 
-.no-button {
-  background-color: red;
+/* Modal text */
+.delete-modal-content p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+  margin: 0 0 30px;
+}
+
+/* Buttons container */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Yes button */
+.confirm-btn {
+  background-color: #00b300; /* bright green */
   color: white;
-  padding: 8px 20px;
+  padding: 12px 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  font-weight: bold;
   cursor: pointer;
+  font-size: 16px;
+}
+
+/* No button */
+.cancel-btn {
+  background-color: #cc0000; /* bright red */
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
 }
