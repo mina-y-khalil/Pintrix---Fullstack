@@ -1,78 +1,51 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-//Auth routes
+// Auth routes
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 
-//Layout wrapper
+// Layout wrapper
 import Layout from './Layout';
 
-import FavoritesList from "../components/FavoritesList/FavoritesList";
+// Favorites
+import FavoritesList from '../components/Favorites/FavoritesList';
 
-
-//Pin-related components
-
+// Pin-related components
 import PinsGrid from '../components/Pins/PinsGrid';
 import CreatePinForm from '../components/Pins/CreatePinForm';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
 
-import BoardsList from '../components/BoardsList';
-import BoardDetail from '../components/BoardDetail';
-import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
-import BoardCreateForm from '../components/BoardCreateForm';
-
-
-
-//Favorites
-import FavoritesList from '../components/Favorites/FavoritesList';
-
-//Board-related components
+// Board-related components
 import BoardsList from '../components/BoardsList';
 import BoardDetail from '../components/BoardDetail';
 import ManageBoards from '../components/ManageBoards/ManageBoards';
-import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal';
+import BoardCreateForm from '../components/BoardCreateForm'; // or BoardCreateModal, not both
+// import BoardCreateModal from '../components/BoardCreateModal/BoardCreateModal'; // use if preferred
 import ManagePinsInBoard from '../components/ManagePinsInBoard/ManagePinsInBoard';
 
-
-//Route config
 export const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      //Homepage shows all pins
+      // Homepage
       {
         path: "/",
         element: <PinsGrid />,
       },
-      //Auth routes
+      // Auth routes
       {
         path: "login",
         element: <LoginFormPage />,
       },
       {
-        path: "favorites",
-        element: <FavoritesList />,
-      },
-      {
-
-
         path: "signup",
         element: <SignupFormPage />,
       },
-      //User favorites
+      // Favorites
       {
-
-        path: "boards/create",
-        element: <BoardCreateForm />,
-      },
-      {
-        path: "boards",
-        element: <BoardsList />,
-
         path: "favorites",
         element: <FavoritesList />,
-
       },
       // Board routes
       {
@@ -80,10 +53,8 @@ export const router = createBrowserRouter([
         element: <BoardsList />,
       },
       {
-
-
         path: "boards/create",
-        element: <BoardCreateModal />,
+        element: <BoardCreateForm />, // or <BoardCreateModal />
       },
       {
         path: "boards/manage",
@@ -94,11 +65,10 @@ export const router = createBrowserRouter([
         element: <BoardDetail />,
       },
       {
-
         path: "boards/:boardId/manage-pins",
         element: <ManagePinsInBoard />,
       },
-      //Pin routes
+      // Pin routes
       {
         path: "pins",
         element: <PinsGrid />,
