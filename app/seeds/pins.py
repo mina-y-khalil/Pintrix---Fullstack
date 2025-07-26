@@ -46,9 +46,10 @@ def seed_pins():
             likes_count=1),
 
         # Animal board
-        Pin(user_id=2, image_url='https://images.pexels.com/photos/59989/pexels-photo-59989.jpeg',
-            title='Elephant Family',
-            description='This pack of elephants are hanging out around a watering hole, enjoying the sun',
+      
+        Pin(user_id=2, image_url='https://images.pexels.com/photos/247376/pexels-photo-247376.jpeg',
+            title='Zebra Secrets',
+            description='Two zebras sharing secrets in the African savanna, their stripes creating a beautiful pattern against the golden grass.',
             likes_count=1),
         
         Pin(user_id=3, image_url='https://images.pexels.com/photos/45170/kittens-cat-cat-puppy-rush-45170.jpeg',

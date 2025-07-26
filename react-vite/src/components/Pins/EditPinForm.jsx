@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editPin, fetchPins } from "../../redux/pins";
 import { useParams, useNavigate } from "react-router-dom";
+import "./EditPinForm.css";
+
 
 export default function EditPinForm() {
   const { id } = useParams();
@@ -11,7 +13,6 @@ export default function EditPinForm() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   const [description, setDescription] = useState("");
 
   useEffect(() => {
@@ -19,14 +20,13 @@ export default function EditPinForm() {
       dispatch(fetchPins()); // Just in case pins weren't loaded yet
     } else {
       setTitle(pin.title);
-      setImageUrl(pin.imageUrl);
       setDescription(pin.description);
     }
   }, [dispatch, pin]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { title, imageUrl, description };
+    const data = { title, description };
     const updated = await dispatch(editPin(id, data));
     if (updated) navigate("/pins");
   };
@@ -35,13 +35,15 @@ export default function EditPinForm() {
 
   return (
     <form onSubmit={handleSubmit} className="edit-pin-form">
+      {/* Pin Image Display */}
+      <div className="pin-image-display">
+        <img src={pin.image_url} alt={pin.title} />
+      </div>
+
       <h2>Edit Pin</h2>
 
       <label>Title</label>
       <input value={title} onChange={e => setTitle(e.target.value)} required />
-
-      <label>Image URL</label>
-      <input value={imageUrl} onChange={e => setImageUrl(e.target.value)} required />
 
       <label>Description</label>
       <textarea value={description} onChange={e => setDescription(e.target.value)} />
