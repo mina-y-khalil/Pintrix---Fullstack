@@ -1,0 +1,98 @@
+.pins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.pin-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.pin-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.pin-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 🆕 Header section with title and action buttons */
+.board-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.board-details-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.board-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Unified button style */
+.rename-button,
+.delete-button {
+  background-color: #e53935; 
+  color: white;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  text-align: center;
+  white-space: nowrap;
+}
+
+.rename-button:hover,
+.delete-button:hover {
+  background-color: #c62828; /* Darker red on hover */
+}
+
+.pin-card-wrapper {
+  position: relative;
+}
+
+.pin-delete-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255, 0, 0, 0.8);
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.pin-delete-button:hover {
+  background: rgba(255, 0, 0, 1);
+}

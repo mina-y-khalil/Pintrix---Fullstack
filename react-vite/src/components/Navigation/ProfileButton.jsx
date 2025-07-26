@@ -1,20 +1,23 @@
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { FaUserCircle } from 'react-icons/fa';
-import { thunkLogout } from "../../redux/session";
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FaBars, FaUserCircle } from 'react-icons/fa';
+import * as sessionActions from '../../redux/session';
+import OpenModalMenuItem from './OpenModalMenuItem';
+import LoginFormModal from '../LoginFormModal';
+import SignupFormModal from '../SignupFormModal';
+import { useNavigate } from 'react-router-dom';
+import './ProfileButton.css';
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
-  const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
+  const navigate = useNavigate();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
-    setShowMenu(!showMenu);
+    e.stopPropagation();
+    setShowMenu(prev => !prev);
   };
 
   useEffect(() => {
@@ -26,51 +29,59 @@ function ProfileButton() {
       }
     };
 
-    document.addEventListener("click", closeMenu);
-
-    return () => document.removeEventListener("click", closeMenu);
+    document.addEventListener('click', closeMenu);
+    return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(thunkLogout());
+    dispatch(sessionActions.thunkLogout());
     closeMenu();
+    navigate('/');
   };
 
+  const ulClassName = `profile-dropdown${showMenu ? '' : ' hidden'}`;
+
   return (
-    <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+    <div className='profile-button-wrapper'>
+      <button onClick={toggleMenu} className='profile-menu-button'>
+        <FaBars className='menu-icon' />
+        <FaUserCircle className='user-icon' />
       </button>
-      {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
-          {user ? (
-            <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
-            </>
-          ) : (
-            <>
+      <ul className={ulClassName} ref={ulRef}>
+        {user ? (
+          <>
+            <li className='dropdown-user-info'>
+              <div>Hello, {user.firstName || user.username}</div>
+              <div>{user.email}</div>
+            </li>
+            <hr />
+            <li className='dropdown-logout'>
+              <button onClick={logout}>Log Out</button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li className='dropdown-login-signup'>
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
               />
+            </li>
+            <li className='dropdown-login-signup'>
               <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal />}
               />
-            </>
-          )}
-        </ul>
-      )}
-    </>
+            </li>
+          </>
+        )}
+      </ul>
+    </div>
   );
 }
 

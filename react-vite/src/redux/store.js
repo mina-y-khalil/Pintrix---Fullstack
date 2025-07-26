@@ -6,11 +6,26 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
-import boardReducer from "./boardReducer";
+import commentsReducer from "./comments";
+import boardsReducer from "./boards";
+import pinsReducer from "./pins";
+
+import favReducer from "./favorites";
+
+import favoritesReducer from "./favorites"; // ADD THIS IMPORT
+
+
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  boardState: boardReducer
+  comments: commentsReducer,
+  boards: boardsReducer,
+  pins: pinsReducer,
+
+  favorites: favReducer
+
+  favorites: favoritesReducer, // ADD THIS LINE
+
 });
 
 let enhancer;

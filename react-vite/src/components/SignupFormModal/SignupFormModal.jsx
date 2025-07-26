@@ -39,8 +39,13 @@ function SignupFormModal() {
   };
 
   return (
-    <>
+    <div className="modal-wrapper">
       <h1>Sign Up</h1>
+      <img
+        src="https://redeem-innovations.com/wp-content/uploads/2025/07/signup2.png"
+        alt="Sign Up Illustration"
+        className="signup-image"
+      />
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <label>
@@ -85,7 +90,7 @@ function SignupFormModal() {
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
 

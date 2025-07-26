@@ -15,20 +15,18 @@ seed_commands = AppGroup('seed')
 @seed_commands.command('all')
 def seed():
     if environment == 'production':
-        
         undo_users()
         undo_boards()
         undo_favorites()
         undo_comments()
         undo_pins()
         undo_pin_boards()
-       
-
+    
     seed_users()
+    seed_pins()
     seed_boards()
     seed_favorites()
     seed_comments()
-    seed_pins()
     seed_pin_boards()
    
 

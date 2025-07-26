@@ -17,6 +17,7 @@ from .config import Config
 
 
 
+
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
@@ -72,6 +73,9 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
+@app.route("/api/csrf/restore", methods=["GET"])
+def restore_csrf():
+    return {"csrf_token": generate_csrf()}
 
 @app.route("/api/docs")
 def api_help():

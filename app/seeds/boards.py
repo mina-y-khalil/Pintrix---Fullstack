@@ -4,26 +4,35 @@ from sqlalchemy.sql import text
 
 
 def seed_boards():
+    jewelry_board = Board(
+        user_id=1, name='Jewelry Board')
+    vacation_board = Board(
+        user_id=1, name='Vacation Board')
+    animal_board = Board(
+        user_id=1, name='Animal Board')
     cute_dogs = Board(
-        user_id=1, name='cute_dogs')
+        user_id=1, name='Cute Dogs')
     cute_cats = Board(
-        user_id=2, name='cute_cats')
+        user_id=2, name='Cute Cats')
     patio_furniture = Board(
-        user_id=3, name='patio_furniture')
+        user_id=3, name='Patio Furniture')
     home_office = Board(
-        user_id=1, name='home_office')
+        user_id=1, name='Home Office')
     camping_gear = Board(
-        user_id=2, name='camping_gear')
+        user_id=2, name='Camping Gear')
     minimalist_design = Board(
-        user_id=3, name='minimalist_design')
+        user_id=3, name='Minimalist Design')
     tech_gadgets = Board(
-        user_id=1, name='tech_gadgets')
+        user_id=1, name='Tech Gadgets')
     wedding_ideas = Board(
-        user_id=2, name='wedding_ideas')
+        user_id=2, name='Wedding Ideas')
     book_recommendations = Board(
-        user_id=3, name='book_recommendations')
+        user_id=3, name='Book Recommendations')
 
     db.session.add_all([
+        jewelry_board,
+        vacation_board,
+        animal_board,
         cute_dogs,
         cute_cats,
         patio_furniture,

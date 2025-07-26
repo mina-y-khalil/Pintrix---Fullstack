@@ -12,8 +12,10 @@ function LoginFormPage() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  // If user is already logged in, redirect to home
   if (sessionUser) return <Navigate to="/" replace={true} />;
 
+  // Handle form submission for login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,35 +33,70 @@ function LoginFormPage() {
     }
   };
 
+  // Handle demo user login
+  const handleDemoLogin = async () => {
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io', // Use your actual demo user email
+        password: 'password'
+      })
+    );
+    if (serverResponse) {
+      setErrors({ credential: "Demo login failed" });
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
-    <>
-      <h1>Log In</h1>
-      {errors.length > 0 &&
-        errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
-      </form>
-    </>
+    <div className="login-page-container">
+      <div className="login-form-wrapper">
+        <h1>Log In</h1>
+
+        {Array.isArray(errors) && errors.length > 0 &&
+          errors.map((message) => <p key={message}>{message}</p>)}
+
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </label>
+          {errors.email && <p>{errors.email}</p>}
+
+          <label>
+            Password
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </label>
+          {errors.password && <p>{errors.password}</p>}
+
+          <button type="submit">Log In</button>
+
+          <button
+            type="button"
+            className="demo-login-button"
+            onClick={handleDemoLogin}
+          >
+            Log in as Demo User
+          </button>
+        </form>
+      </div>
+
+      <img
+        src="/login.png"
+        alt="Login Illustration"
+        className="signin-image"
+      />
+    </div>
   );
 }
 
