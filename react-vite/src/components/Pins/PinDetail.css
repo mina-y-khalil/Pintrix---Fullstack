@@ -1,4 +1,3 @@
-
 .pin-detail-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,7 +12,6 @@
   margin-bottom: 3rem;
 }
 
-/* Left Column - Pin Information */
 .pin-info {
   display: flex;
   flex-direction: column;
@@ -21,229 +19,61 @@
 }
 
 .pin-title {
-  font-size: 60px;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: 700;
+  font-family: Helvetica, sans-serif;
   color: #000;
-  margin: 0px;
+  margin: 0;
 }
 
 .pin-owner {
-  font-size: 20px;
-  color: black;
-  margin: 0px ;
+  font-size: 18px;
+  color: #444;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .pin-stats {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .favorites-count {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-size: 20px;
   color: #000;
-
-/* Pins Grid Styles */
-.pins-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
-}
-
-.pin-card {
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  border-radius: 0px;
-  max-height: 350px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.pin-card a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.pin-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.pin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-  flex-shrink: 0;
-}
-
-.pin-header h3 {
-  margin: 0;
-  flex: 1;
-}
-
-.pin-header h3 a {
-  color: #000000;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.pin-header h3 a:hover {
-  color: #333333;
-  text-decoration: none;
-}
-
-.favorite-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-left: 0.5rem;
-  font-size: 1.2rem;
-  transition: all 0.2s ease;
-  color: white;
-  text-shadow: 
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-}
-
-.favorite-button:hover {
-  transform: scale(1.1);
-}
-
-.favorite-button.favorited {
-  color: #e60023;
-  text-shadow: none;
-}
-
-.edit-link-container {
-  text-align: center;
-  margin-top: 0.5rem;
-  flex-shrink: 0;
-}
-
-.edit-link {
-  color: black;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-  cursor: pointer;
-}
-
-.edit-link:hover {
-  color: #e60023;
-}
-
-/* Pin Detail Styles */
-.pin-detail-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: white;
-}
-
-.pin-detail-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3rem;
-}
-
-/* Left Column - Pin Information */
-.pin-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.pin-title {
-  font-size: 40px;
-  font-weight: bold;
-  color: #000;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  margin-bottom: 0px; 
-}
-
-.pin-owner {
-  font-size: 15px;
-  color: black;
-  margin: 0;
-  padding: 0;
-  line-height: 1.2;
-  margin-top: 0;
-}
-
-.pin-stats {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-  margin-top: 5px; 
-}
-
-.pin-stats {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-  margin-top: 0px; 
-}
-
-.favorites-count {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 22px;
-  color: black;
-  font-weight: 500;
-
 }
 
 .heart-icon {
-  color: #e60023;
-
-  font-size: 30px;
+  color: red;
+  font-size: 28px;
 }
 
 .pin-description {
-  line-height: 8;
-  color: black;
-  font-size: 40px;
-
-  font-size: 24px;
-}
-
-.pin-description {
-  line-height: 1.5; 
-  color: black;
-  font-size: 18px; 
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .pin-description-text {
-  color: #333;
+  color: black;
+  font-size: 16px;
+  line-height: 1.6;
   margin: 0;
   padding: 0;
-
+  text-align: left;
 }
 
 .add-comment-btn {
   background-color: #e60023;
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -255,75 +85,63 @@
   background-color: #c82333;
 }
 
-.comment-icon {
-  font-size: 5px;
-}
-
-/* Right Column - Image and Actions */
 .pin-image-section {
   display: flex;
   flex-direction: column;
-  gap: 100px;
+  align-items: center;
+  gap: 2rem;
 }
 
 .image-container {
   position: relative;
   width: 100%;
-  max-width: 500px;  
+  max-width: 350px;
 }
 
 .image-container img {
   width: 100%;
-  height: auto;
   border-radius: 8px;
-  display: block;
+  border: 2px solid #000;
 }
 
 .share-btn {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
+  bottom: -20px;
+  right: 0;
+  background: none;
+  font-size: 25px;
+  color: black;
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
   cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .action-buttons {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: center;
+}
+
+.favorite-btn,
+.add-to-board-btn {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  width: 200px;
+  transition: background-color 0.2s ease;
 }
 
 .favorite-btn {
   background-color: #e60023;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 20px;
-  transition: background-color 0.2s ease;
 }
 
 .favorite-btn:hover {
   background-color: #650610;
 }
-
-
-
-.favorite-button.favorited {
-  color: #e60023;
-  text-shadow: none; 
-}
-
 
 .favorite-btn.favorited {
   background-color: #666;
@@ -332,16 +150,6 @@
 .add-to-board-btn {
   background-color: #ffb246;
   color: black;
-  border: none;
-
-  padding: 10px 20px;;
-
-  padding: 10px 20px;
-
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 20px;
-  transition: background-color 0.2s ease;
 }
 
 .add-to-board-btn:hover {
@@ -353,21 +161,21 @@
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
+}
 
-
-
+.edit-btn,
+.delete-btn {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .edit-btn {
-  background: none;
   color: #000;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background 0.2s, color 0.2s;
 }
 
 .edit-btn:hover {
@@ -375,29 +183,20 @@
 }
 
 .delete-btn {
-  background: none;
   color: #e60023;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background 0.2s, color 0.2s;
 }
 
 .delete-btn:hover {
   background: #ffe6ea;
 }
 
-/* Comments Section */
 .comments-section {
   border-top: 2px solid #e60023;
   padding-top: 2rem;
 }
 
 .comments-section h3 {
-  font-size: 30px;
+  font-size: 24px;
   color: #000;
   margin-bottom: 20px;
 }
@@ -405,7 +204,7 @@
 .comments-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5px;
+  gap: 1rem;
 }
 
 .comment-item {
@@ -421,18 +220,19 @@
 }
 
 .comment-author {
-  color: black;
-  font-weight: bold;
-
+  color: orange;
+  font-weight: 600;
 }
 
 .comment-date {
-  color: #666;
-  font-size: 10px;
+  color: #888;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
 .comment-body {
   color: #333;
+  font-size: 15px;
   line-height: 1.5;
   margin-bottom: 0.5rem;
 }
@@ -448,65 +248,30 @@
   border: none;
   color: blue;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 14px;
   text-decoration: underline;
 }
-
-
-}
-
-.comment-date {
-  color: #666;
-  font-size: 10px;
-}
-
-.comment-body {
-  color: #333;
-  line-height: 1.5;
-  margin-bottom: 0.5rem;
-}
-
-.comment-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-}
-
-.edit-comment {
-  background: none;
-  border: none;
-  color: blue;
-  cursor: pointer;
-  font-size: 0.9rem;
-  text-decoration: underline;
-}
-
 
 .delete-comment {
   background: none;
   border: none;
   color: #dc3545;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 14px;
   text-decoration: underline;
 }
 
-
 .no-comments {
   color: black;
+  font-size: 16px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .pin-detail-content {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
-  .pin-title {
-    font-size: 2rem;
-  }
-  
+
   .owner-actions {
     flex-direction: column;
   }
