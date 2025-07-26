@@ -15,13 +15,13 @@ const CommentForm = ({ pinId, comment }) => {
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!currentUser && formRef.current && !formRef.current.contains(e.target)) {
+            if (formRef.current && !formRef.current.contains(e.target)) {
                 closeModal();
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [closeModal, currentUser]);
+    }, [closeModal]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -34,12 +34,21 @@ const CommentForm = ({ pinId, comment }) => {
             return;
         }
 
-        if (comment) {
-            await dispatch(editComment(comment.id, text));
-        } else {
-            await dispatch(createComment(pinId, text));
+        try {
+            if (comment) {
+                await dispatch(editComment(comment.id, text));
+            } else {
+                await dispatch(createComment(pinId, text));
+            }
+            closeModal();
+        } catch (res) {
+            const data = await res.json();
+            if (data?.errors?.includes("You have already commented on this pin.")) {
+                setErrors(["You already submitted a comment on this pin."]);
+            } else {
+                setErrors(["Something went wrong."]);
+            }
         }
-        closeModal();
     };
 
     return (
