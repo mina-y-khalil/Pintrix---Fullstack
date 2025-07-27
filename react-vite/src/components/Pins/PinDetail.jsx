@@ -92,6 +92,33 @@ const handleCreateBoard = async () => {
   }
 };
 
+const handleShare = async () => {
+  const pinUrl = `${window.location.origin}/pins/${pin.id}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: pin.title,
+        text: pin.description || "Check out this pin!",
+        url: pinUrl,
+      });
+    } catch (err) {
+      console.error("Error sharing:", err);
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(pinUrl);
+      alert("Pin link copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      alert("Failed to copy link.");
+    }
+  }
+};
+
+
+
+
   if (!pin) return <p>Loading...</p>;
 
   return (
@@ -125,7 +152,7 @@ const handleCreateBoard = async () => {
         <div className="pin-image-section">
           <div className="image-container">
             <img src={pin.image_url} alt={pin.title} />
-            <button className="share-btn">↪</button>
+            <button className="share-btn" onClick={handleShare}>🔗</button>
           </div>
 
           <div className="action-buttons">
