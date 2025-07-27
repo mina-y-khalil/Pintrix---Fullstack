@@ -129,6 +129,8 @@ const handleCreateBoard = async () => {
           </div>
 
           <div className="action-buttons">
+            {currentUser && (
+              <>
             <button
               className={`favorite-btn ${isFavorited ? "favorited" : ""}`}
               onClick={handleFavoriteClick}
@@ -178,6 +180,8 @@ const handleCreateBoard = async () => {
     </div>
   )}
 </div>
+</>
+  )}
 { /* END ADD TO BOARD */}
 
             {currentUser?.id === pin.user_id && (
