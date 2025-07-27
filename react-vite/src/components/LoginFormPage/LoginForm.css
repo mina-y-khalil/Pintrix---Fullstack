@@ -36,3 +36,12 @@ h1 {
   width: 100%;
   height: auto;
 }
+
+.demo-login-button {
+  background-color: #000;
+  color: #fff;
+}
+
+.demo-login-button:hover {
+  background-color: #333;
+}
