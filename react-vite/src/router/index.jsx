@@ -12,6 +12,7 @@ import FavoritesList from '../components/FavoritesList';
 
 // Pin-related components
 import PinsGrid from '../components/Pins/PinsGrid';
+import PinsGridPersonal from '../components/Pins/PinsGridPersonal';
 import CreatePinForm from '../components/Pins/CreatePinForm';
 import EditPinForm from "../components/Pins/EditPinForm";
 import PinDetail from "../components/Pins/PinDetail";
@@ -66,7 +67,7 @@ export const router = createBrowserRouter([
       // Pin routes
       {
         path: "pins",
-        element: <PinsGrid />,
+        element: <PinsGridPersonal />,
       },
       {
         path: "pins/new",
