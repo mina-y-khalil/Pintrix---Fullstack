@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFavorites } from '../../redux/favorites';
+import { fetchFavorites, deleteFavorite } from '../../redux/favorites';
 import './FavoritesList.css'
 
 const FavoritesList = () => {
   const dispatch = useDispatch(); 
-  // Get all favorite pins from Redux state
   const pins = useSelector(state => Object.values(state.favorites.entries));
   
   // Fetch favorites when the component mounts
   useEffect(() => {
     dispatch(fetchFavorites());
   }, [dispatch]);
+
+  const handleUnfavorite = (pinId) => {
+    dispatch(deleteFavorite(pinId));
+  };
 
   return (
     <div>
@@ -28,7 +31,7 @@ const FavoritesList = () => {
                            <img  src={pin.image_url} alt={pin.title} />
                           <div className="favText">
                             <span className='favTitle'>{pin.title}</span>
-                            <span className='favLikes'>❤️{"  "+pin.likes_count}</span>
+                            <span className='favLikes clickableHeart' onClick={() => handleUnfavorite(pin.id)} title="Remove from favorites">❤️{"  "+pin.likes_count}</span>
                           </div>
                       </div>
                   </div>

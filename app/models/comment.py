@@ -25,5 +25,6 @@ class Comment(db.Model):
             'pin_id': self.pin_id,
             'text': self.text,
             'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'updated_at': self.updated_at.isoformat(),
+            'username': self.user.username
         }

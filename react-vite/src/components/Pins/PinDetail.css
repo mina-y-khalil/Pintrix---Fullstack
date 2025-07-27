@@ -147,14 +147,93 @@
   background-color: #666;
 }
 
-.add-to-board-btn {
-  background-color: #ffb246;
+.favorited-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ff4d4f;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  z-index: 9999;
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+
+/* ADD TO BOARD CSS */
+.add-to-board-wrapper {
+  position: relative;
+  display: flex; /* was: inline-block */
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.board-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 5px;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  width: 250px;
+  z-index: 1000;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
   color: black;
 }
 
-.add-to-board-btn:hover {
-  background-color: #874d06;
+.board-dropdown ul {
+   list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
 }
+
+.board-dropdown li {
+  margin-bottom: 0.5rem;
+}
+
+.board-dropdown button {
+  background: none;
+  border: none;
+  padding: 0.4rem 0;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  color: black;
+}
+
+.new-board-form {
+  margin-top: 0.75rem;
+}
+
+.new-board-form input {
+  width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.board-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+
+/* END - ADD TO BOARD CSS */
+
 
 .owner-actions {
   display: flex;

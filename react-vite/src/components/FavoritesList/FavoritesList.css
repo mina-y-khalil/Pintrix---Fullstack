@@ -40,3 +40,12 @@
     font-family:Helvetica Neue, Helvetica, sans-serif;
 }
 
+.clickableHeart {
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.clickableHeart:hover {
+  transform: scale(1.1);
+  color: red;
+}

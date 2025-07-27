@@ -14,6 +14,7 @@ const BoardDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   const board = useSelector((state) => state.boards.entries[boardId]);
 
   const [isEditing, setIsEditing] = useState(false);

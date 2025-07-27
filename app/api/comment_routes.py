@@ -15,6 +15,10 @@ def get_comments(pin_id):
 @comment_routes.route('/pins/<int:pin_id>/comments', methods=['POST'])
 @login_required
 def create_comment(pin_id):
+    existing_comment = Comment.query.filter_by(user_id=current_user.id, pin_id=pin_id).first()
+    if existing_comment:
+        return {"errors": ["You have already commented on this pin."]}, 400
+
     data = request.get_json()
     text = data.get('text')
 
@@ -30,8 +34,9 @@ def create_comment(pin_id):
     db.session.commit()
     return comment.to_dict(), 201
 
+
 # Update comment - MK
-@comment_routes.route('/comments/<int:id>', methods=['PUT'])
+@comment_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_comment(id):
     comment = Comment.query.get(id)
@@ -50,7 +55,7 @@ def update_comment(id):
     return comment.to_dict()
 
 # Delete comment - MK
-@comment_routes.route('/comments/<int:id>', methods=['DELETE'])
+@comment_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
 def delete_comment(id):
     comment = Comment.query.get(id)
