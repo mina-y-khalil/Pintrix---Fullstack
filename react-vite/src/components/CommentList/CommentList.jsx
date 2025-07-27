@@ -17,14 +17,14 @@ const CommentList = ({ pinId, currentUserId }) => {
 
     return (
         <div className="comment-list-container">
-            {/* 💬 Add Comment Button (Modal Overlay) */}
             {currentUserId && (
                 <OpenModalButton
                     buttonText="💬 Add Comment"
-                    modalComponent={<CommentForm pinId={pinId} />}
                     className="add-comment-button"
+                    modalComponent={<CommentForm pinId={pinId} />}
                 />
             )}
+
 
             <h3 className="comments-title">Comments:</h3>
 
@@ -48,9 +48,10 @@ const CommentList = ({ pinId, currentUserId }) => {
                                     <div className="comment-actions">
                                         <OpenModalButton
                                             buttonText="Edit"
-                                            modalComponent={<CommentForm pinId={pinId} comment={comment} />}
                                             className="edit-comment-button"
+                                            modalComponent={<CommentForm pinId={pinId} comment={comment} />}
                                         />
+
                                         <OpenModalButton
                                             buttonText="Delete"
                                             modalComponent={<DeleteConfirmationModal commentId={comment.id} pinId={pinId} />}
