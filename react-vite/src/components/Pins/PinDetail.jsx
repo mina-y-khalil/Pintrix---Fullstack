@@ -32,9 +32,10 @@ export default function PinDetail() {
   const userBoards = Object.values(boards).filter(board => board.user_id === currentUser?.id);
 
 
-  const fullState = useSelector((state) => state);
-  const allFavorites = useMemo(() => fullState?.favorites || {}, [fullState?.favorites]);
-  const favoritesArray = useMemo(() => Object.values(allFavorites), [allFavorites]);
+  
+  const favorites = useSelector((state) => state.favorites.entries || {});
+  const favoritesArray = useMemo(() => Object.values(favorites), [favorites]);
+
 
   const isFavorited = useMemo(() => {
     return favoritesArray.some(fav => fav.pin_id === Number(id));
@@ -44,8 +45,10 @@ export default function PinDetail() {
     return favoritesArray.filter(fav => fav.pin_id === Number(id)).length;
   }, [favoritesArray, id]);
 
+  const [showFavoritedPopup, setShowFavoritedPopup] = useState(false);
+
   useEffect(() => {
-    if (!pin)dispatch(fetchPins());
+    if (!pin) dispatch(fetchPins());
     dispatch(fetchFavorites());
     dispatch(fetchCommentsByPin(Number(id)));
     dispatch(thunkFetchBoards());
@@ -58,8 +61,10 @@ export default function PinDetail() {
         dispatch(deleteFavorite(favoriteToDelete.id));
       }
     } else {
-      dispatch(createFavorite(id));
-    }
+      dispatch(createFavorite(Number(id))); 
+      setShowFavoritedPopup(true);
+      setTimeout(() => setShowFavoritedPopup(false), 2000); 
+  }
   };
 
   const handleDelete = () => {
@@ -131,7 +136,13 @@ const handleCreateBoard = async () => {
               {isFavorited ? "Remove from Favorites" : "Add To Favorites"}
             </button>
 
-{/* ADD TO BOARD */}
+            {showFavoritedPopup && (
+            <div className="favorited-popup">
+             Favorited!
+            </div>
+      )}
+
+{/* Add to board button*/}
             <div className="add-to-board-wrapper">
   <button
     className="add-to-board-btn"
