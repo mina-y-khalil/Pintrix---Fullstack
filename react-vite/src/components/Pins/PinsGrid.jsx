@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPins } from "../../redux/pins";
@@ -22,15 +22,21 @@ export default function PinsGrid() {
     }
   }, [dispatch, currentUser]);
 
-  // Shuffle pins randomly once after fetching
-  const shuffledPins = useMemo(() => {
+  // Shuffle pins randomly 
+  const shuffledRef = useRef(null);
+  
+  useEffect(() => {
+  if (!shuffledRef.current && pins.length) {
     const array = [...pins];
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-    return array;
-  }, [pins]);
+    shuffledRef.current = array;
+  }
+}, [pins]);
+
+const shuffledPins = shuffledRef.current || [];
 
   // Check if a pin is already favorited
   const isPinFavorited = (pinId) => {
@@ -38,13 +44,17 @@ export default function PinsGrid() {
   };
 
   // Favorite or unfavorite the pin
-  const handleFavoriteClick = (pinId) => {
+  const handleFavoriteClick = async (pinId) => {
     const existingFavorite = favorites.find(fav => fav.pin_id === pinId);
     if (existingFavorite) {
-      dispatch(deleteFavorite(existingFavorite.id));
+      await dispatch(deleteFavorite(existingFavorite.id));
     } else {
-      dispatch(createFavorite(pinId));
+      const result = await dispatch(createFavorite(pinId));
+
+      if (!result?.fav && !result?.alreadyFavorited) {
+      console.error('Failed to favorite pin');
     }
+  }
   };
 
   return (

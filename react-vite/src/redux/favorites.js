@@ -47,15 +47,16 @@ export const createFavorite = (pin_id) => async (dispatch) => {
   if (res.ok) {
     const data = await res.json();
     
-    // FIXED: Check if it's already favorited
+    // Check if it's already favorited
     if (data.message === 'Already favorited') {
       // Don't dispatch anything - just return
       console.log('Pin already favorited');
-      return;
+      return { alreadyFavorited: true };
     }
     
     // Only dispatch if it's a new favorite
     dispatch(addFavorite(data));
+    return { fav: data };
   }
 };
 
