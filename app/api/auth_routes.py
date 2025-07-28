@@ -10,11 +10,11 @@ auth_routes = Blueprint('auth', __name__)
 @auth_routes.route('/')
 def authenticate():
     """
-    Authenticates a user.
+    Authenticates a user or return null if not logged in.
     """
     if current_user.is_authenticated:
         return current_user.to_dict()
-    return {'errors': {'message': 'Unauthorized'}}, 401
+    return {'user': None}, 200
 
 
 @auth_routes.route('/login', methods=['POST'])
