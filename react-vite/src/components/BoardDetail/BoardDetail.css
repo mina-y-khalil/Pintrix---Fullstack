@@ -2,14 +2,24 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
+  
+}
+
+.pin-card-wrapper {
+  position: relative;
 }
 
 .pin-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding-bottom: 35px;
 }
 
 .pin-image {
@@ -19,16 +29,19 @@
   display: block;
 }
 
+.pin-info {
+  padding: 10px;
+}
+
 .pin-title {
   font-size: 1rem;
   font-weight: 600;
-  margin: 10px;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 🆕 Header section with title and action buttons */
 .board-header {
   display: flex;
   flex-direction: column;
@@ -50,8 +63,19 @@
   align-items: center;
 }
 
-/* Unified button style */
-.rename-button,
+.rename-button {
+  background-color: #e53935; 
+  color: white;
+  padding: 0.8rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
 .delete-button {
   background-color: #e53935; 
   color: white;
@@ -61,7 +85,6 @@
   font-size: 0.85rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
-
   text-align: center;
   white-space: nowrap;
 }
@@ -71,26 +94,28 @@
   background-color: #c62828; /* Darker red on hover */
 }
 
-.pin-card-wrapper {
-  position: relative;
-}
-
 .pin-delete-button {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  bottom: 8px; /* slightly more padding for comfort */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
   background: rgba(255, 0, 0, 0.8);
   border: none;
   color: white;
   font-weight: bold;
   font-size: 18px;
   line-height: 1;
-  padding: 0 6px;
+  width: 32px;    /* fixed width & height for circle */
+  height: 32px;
+  padding: 0;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 10;
   user-select: none;
   transition: background 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pin-delete-button:hover {

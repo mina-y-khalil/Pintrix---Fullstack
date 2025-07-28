@@ -51,11 +51,17 @@ const CommentList = ({ pinId, currentUserId }) => {
                                             modalComponent={<CommentForm pinId={pinId} comment={comment} />}
                                             className="edit-comment-button"
                                         />
-                                        <OpenModalButton
-                                            buttonText="Delete"
-                                            modalComponent={<DeleteConfirmationModal commentId={comment.id} pinId={pinId} />}
-                                            className="delete-comment-button"
+                                            <OpenModalButton
+                                    buttonText="Delete"
+                                    modalComponent={
+                                        <DeleteConfirmationModal
+                                        type="comment"
+                                        commentId={comment.id}
+                                        pinId={pinId}
                                         />
+                                    }
+                                    className="delete-comment-button"
+                                    />
                                     </div>
                                 )}
                             </div>

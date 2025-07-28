@@ -1,13 +1,13 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import { fetchPins, deletePin } from "../../redux/pins";
+import { fetchPins } from "../../redux/pins";
 import { createFavorite, deleteFavorite, fetchFavorites } from "../../redux/favorites";
 import { fetchCommentsByPin } from "../../redux/comments";
 import { thunkFetchBoards, thunkAddPinToBoard, thunkCreateBoard } from "../../redux/boards";
 import "./PinDetail.css";
-// import OpenModalButton from "../OpenModalButton";
-// import CommentForm from "../CommentForm";
+import OpenModalButton from "../OpenModalButton";
+import DeleteConfirmationModal from "../DeleteConfirmationModal";
 import CommentList from "../CommentList";
 
 export default function PinDetail() {
@@ -65,13 +65,6 @@ export default function PinDetail() {
       setShowFavoritedPopup(true);
       setTimeout(() => setShowFavoritedPopup(false), 2000); 
   }
-  };
-
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this pin?")) {
-      dispatch(deletePin(pin.id));
-      navigate("/pins");
-    }
   };
 
   const handleAddToBoard = async (boardId) => {
@@ -216,9 +209,17 @@ const handleShare = async () => {
                 <Link to={`/pins/${pin.id}/edit`}>
                   <button className="edit-btn">Edit This Pin</button>
                 </Link>
-                <button className="delete-btn" onClick={handleDelete}>
-                  Delete This Pin
-                </button>
+                  <OpenModalButton
+                    buttonText="Delete This Pin"
+                    modalComponent={
+                      <DeleteConfirmationModal
+                        type="pin"
+                        pinId={pin.id}
+                        navigateAfterDelete={() => navigate("/pins")}
+                      />
+                    }
+                    className="delete-btn"
+                  />
               </div>
             )}
           </div>
