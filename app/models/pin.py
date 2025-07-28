@@ -27,7 +27,6 @@ class Pin(db.Model):
         return {
             'id': self.id,
             'user_id': self.user_id,
-            'user': self.user.to_dict() if self.user else None,
             'image_url': self.image_url,
             'title': self.title,
             'description': self.description,

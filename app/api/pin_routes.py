@@ -8,8 +8,8 @@ pin_routes = Blueprint('pins', __name__)
 # Get all pins and return as a list of dictionaries
 @pin_routes.route('/', methods=['GET'])
 def get_all_pins():
-    pins = Pin.query.options(joinedload(Pin.user)).all()
-    return jsonify([pin.to_dict() for pin in pins])
+    pins = Pin.query.all()
+    return [pin.to_dict() for pin in pins]
 
 # Get a single pin by its ID
 @pin_routes.route('/<int:id>', methods=['GET'])
