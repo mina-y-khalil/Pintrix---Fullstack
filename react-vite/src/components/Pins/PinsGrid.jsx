@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPins } from "../../redux/pins";
@@ -14,30 +14,32 @@ export default function PinsGrid() {
   );
   const currentUser = useSelector(state => state.session.user);
   const shuffledRef = useRef(null);
+  const [shuffledOnce, setShuffledOnce] = useState(false);
 
-  // Fetch pins and user favorites (if logged in)
+  // Fetch pins 
   useEffect(() => {
     dispatch(fetchPins());
+  }, [dispatch]);
+
+  // Fetch favorites if user is logged in
+  useEffect(() => {
     if (currentUser) {
       dispatch(fetchFavorites());
     }
   }, [dispatch, currentUser]);
 
-  // Shuffle pins randomly 
+  // Shuffle pins only once
   useEffect(() => {
-    shuffledRef.current = null;
-  }, [pins]);
-
-  useEffect(() => {
-    if (!shuffledRef.current && pins.length) {
-      const array = [...pins];
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-      shuffledRef.current = array;
+  if (!shuffledRef.current && pins.length && !shuffledOnce) {
+    const array = [...pins];
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
-  }, [pins]);
+    shuffledRef.current = array;
+    setShuffledOnce(true); 
+  }
+}, [pins, shuffledOnce]);
 
   const shuffledPins = shuffledRef.current || [];
 
@@ -47,7 +49,8 @@ export default function PinsGrid() {
   };
 
   // Favorite or unfavorite the pin
-  const handleFavoriteClick = async (pinId) => {
+  const handleFavoriteClick = async (e, pinId) => {
+    e.preventDefault();
     const existingFavorite = favorites.find(fav => fav.pin_id === pinId);
     if (existingFavorite) {
       await dispatch(deleteFavorite(existingFavorite.id));
@@ -73,8 +76,9 @@ export default function PinsGrid() {
               {/* Show favorite button only if logged in */}
               {currentUser && (
                 <button
+                  type='button'
                   className={`favorite-button ${isPinFavorited(pin.id) ? 'favorited' : ''}`}
-                  onClick={() => handleFavoriteClick(pin.id)}
+                  onClick={(e) => handleFavoriteClick(e, pin.id)}
                 >
                   ♥
                 </button>
