@@ -1,13 +1,14 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models import Pin, Favorite, db
+from sqlalchemy.orm import joinedload
 
 pin_routes = Blueprint('pins', __name__)
 
 # Get all pins and return as a list of dictionaries
 @pin_routes.route('/', methods=['GET'])
 def get_all_pins():
-    pins = Pin.query.all()
+    pins = Pin.query.options(joinedload(Pin.user)).all()
     return jsonify([pin.to_dict() for pin in pins])
 
 # Get a single pin by its ID
