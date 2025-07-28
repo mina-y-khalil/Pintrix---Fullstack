@@ -45,8 +45,8 @@ export const removePin = (id) => ({
 export const fetchPins = () => async (dispatch) => {
   const res = await fetch('/api/pins/');
   if (res.ok) {
-    const pins = await res.json();
-    dispatch(loadPins(pins));
+    const data = await res.json();
+    dispatch(loadPins(data.pins));
   } else {
     console.error("Failed to fetch pins");
   }
