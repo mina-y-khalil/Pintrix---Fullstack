@@ -172,7 +172,7 @@
 /* ADD TO BOARD CSS */
 .add-to-board-wrapper {
   position: relative;
-  display: flex; /* was: inline-block */
+  display: flex; 
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -230,8 +230,6 @@
 .board-dropdown button:hover {
   background-color: #f0f0f0;
 }
-
-
 /* END - ADD TO BOARD CSS */
 
 
@@ -242,7 +240,24 @@
   margin-top: 20px;
 }
 
-.edit-btn,
+.edit-btn{
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  color: #e60023;
+  background-color: #e60023;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #650610;
+
+}
+
 .delete-btn {
   background: none;
   border: none;
@@ -251,17 +266,6 @@
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
-}
-
-.edit-btn {
-  color: #000;
-}
-
-.edit-btn:hover {
-  background: #f0f0f0;
-}
-
-.delete-btn {
   color: #e60023;
 }
 
@@ -355,3 +359,4 @@
     flex-direction: column;
   }
 }
+

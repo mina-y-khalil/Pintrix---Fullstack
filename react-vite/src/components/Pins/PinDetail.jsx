@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
 import { fetchPins } from "../../redux/pins";
@@ -204,11 +204,17 @@ const handleShare = async () => {
   )}
 { /* END ADD TO BOARD */}
 
+          {/* Edit Button */}
             {currentUser?.id === pin.user_id && (
               <div className="owner-actions">
-                <Link to={`/pins/${pin.id}/edit`}>
-                  <button className="edit-btn">Edit This Pin</button>
-                </Link>
+                <button
+                  className="edit-btn"
+                  onClick={() => navigate(`/pins/${pin.id}/edit`)}
+                >
+                  Edit This Pin
+                </button>
+
+                  {/* Delete Button */}
                   <OpenModalButton
                     buttonText="Delete This Pin"
                     modalComponent={
