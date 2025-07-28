@@ -31,6 +31,10 @@ class Pin(db.Model):
             'title': self.title,
             'description': self.description,
             'likes_count': self.likes_count,
+            'user': {
+                'id': self.user.id,
+                'username': self.user.username
+            } if self.user else None,   
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat()
         }
