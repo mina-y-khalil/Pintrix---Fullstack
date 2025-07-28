@@ -13,6 +13,7 @@ export default function PinsGrid() {
     Object.values(state.favorites.entries || {})
   );
   const currentUser = useSelector(state => state.session.user);
+  const shuffledRef = useRef(null);
 
   // Fetch pins and user favorites (if logged in)
   useEffect(() => {
@@ -23,20 +24,22 @@ export default function PinsGrid() {
   }, [dispatch, currentUser]);
 
   // Shuffle pins randomly 
-  const shuffledRef = useRef(null);
-  
   useEffect(() => {
-  if (!shuffledRef.current && pins.length) {
-    const array = [...pins];
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    shuffledRef.current = array;
-  }
-}, [pins]);
+    shuffledRef.current = null;
+  }, [pins]);
 
-const shuffledPins = shuffledRef.current || [];
+  useEffect(() => {
+    if (!shuffledRef.current && pins.length) {
+      const array = [...pins];
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      shuffledRef.current = array;
+    }
+  }, [pins]);
+
+  const shuffledPins = shuffledRef.current || [];
 
   // Check if a pin is already favorited
   const isPinFavorited = (pinId) => {
@@ -52,9 +55,9 @@ const shuffledPins = shuffledRef.current || [];
       const result = await dispatch(createFavorite(pinId));
 
       if (!result?.fav && !result?.alreadyFavorited) {
-      console.error('Failed to favorite pin');
+        console.error('Failed to favorite pin');
+      }
     }
-  }
   };
 
   return (
